@@ -4,9 +4,9 @@ import streamlit as st
 from datetime import datetime
 from models.calendario_model import Calendario
 
-@st.cache_data
+# @st.cache_data
 def rodadas():
-    calendario = requests.get("https://api.jolpi.ca/ergast//f1/2026.json").json()
+    calendario = requests.get("https://api.jolpi.ca/ergast/f1/2026.json").json()
     acesso = calendario["MRData"]["RaceTable"]["Races"]
 
     total_rodadas = acesso[-1]["round"]

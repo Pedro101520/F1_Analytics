@@ -1,5 +1,6 @@
 import streamlit as st
 import requests
+from datetime import datetime
 
 from paginas.inicio import pagina_inicial
 from paginas.pilotos import info_pilotos
@@ -21,7 +22,7 @@ with col1:
     with img_col:
         st.image("assets/F1+Logo.png", width=50)
     with text_col:
-        st.write("##### F1 Analytics - Temporada 2025")
+        st.write(f"##### F1 Analytics - Temporada {datetime.now().year}")
 with col2:
     if st.button("Inicio", use_container_width=True):
         st.session_state.page = "inicio"
@@ -31,9 +32,13 @@ with col3:
         st.session_state.page = "pilotos"
         st.rerun()
 with col4:
-    st.button("Pedro223", use_container_width=True)
+    if st.button("Equipes", use_container_width=True):
+        st.session_state.page = "equipes"
+        st.rerun()
 with col5:
-    st.button("Pedro298", use_container_width=True)
+    if st.button("Predição", use_container_width=True):
+        st.session_state.page = "pred"
+        st.rerun()
 
 
 st.space()
