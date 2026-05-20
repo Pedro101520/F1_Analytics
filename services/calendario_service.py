@@ -1,6 +1,8 @@
 import requests
-from datetime import datetime
 import streamlit as st
+
+from datetime import datetime
+from models.calendario_model import Calendario
 
 @st.cache_data
 def rodadas():
@@ -19,7 +21,4 @@ def rodadas():
         if data_atual.date() <= data.date():
             break
     
-    return {
-        "total_rodadas": total_rodadas,
-        "rodada_atual": rodada_atual
-    }
+    return Calendario(total_rodadas, rodada_atual)
