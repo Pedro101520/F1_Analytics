@@ -41,9 +41,6 @@ with col5:
         st.rerun()
 
 
-st.space()
-st.space()
-
 
 if st.session_state.page == "inicio":
     pagina_inicial()
