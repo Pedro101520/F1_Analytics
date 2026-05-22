@@ -26,3 +26,6 @@ class Calendario:
 
         self.circuito = circuito_traduzido
         self.localidade = rodada_atual["Circuit"]["Location"]["locality"]
+
+        self.lat = rodada_atual["Circuit"]["Location"]["lat"]
+        self.long = rodada_atual["Circuit"]["Location"]["long"]
