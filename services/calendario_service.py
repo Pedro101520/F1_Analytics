@@ -6,7 +6,8 @@ from models.calendario_model import Calendario
 
 # @st.cache_data
 def rodadas():
-    calendario = requests.get("https://api.jolpi.ca/ergast/f1/2026.json").json()
+    ano_atual = datetime.now().year
+    calendario = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}.json").json()
     acesso = calendario["MRData"]["RaceTable"]["Races"]
 
     total_rodadas = acesso[-1]["round"]

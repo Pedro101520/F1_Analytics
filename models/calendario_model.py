@@ -10,14 +10,17 @@ class Calendario:
         data_hoje = datetime.now().date()
         data = datetime.strptime(rodada_atual["date"], "%Y-%m-%d").date()
 
-        with open("assets\dados_traduzidos\corrida.json", "r", encoding="utf-8") as arquivo:
+        with open("assets\corrida.json", "r", encoding="utf-8") as arquivo:
             dados = json.load(arquivo)
 
         # Data sem formatação
         self.prox_data = data
 
         self.prox_corrida_data = data.strftime("%d/%m/%Y")
+        
         self.prox_corrida = (data - data_hoje).days
+
+        self.circuit_id = rodada_atual["raceName"]
 
         try:
             circuito_traduzido = dados[rodada_atual["raceName"]]

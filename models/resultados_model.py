@@ -5,7 +5,7 @@ class InfoUltimaCorrida:
         nome = corrida["Results"][0]["Driver"]["givenName"]
         sobrenome = corrida["Results"][0]["Driver"]["familyName"]
 
-        with open("assets\dados_traduzidos\corrida.json", "r", encoding="utf-8") as arquivo:
+        with open("assets\corrida.json", "r", encoding="utf-8") as arquivo:
             dados = json.load(arquivo)
         try:
             circuito_traduzido = dados[corrida["raceName"]]

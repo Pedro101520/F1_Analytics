@@ -4,6 +4,7 @@ from services.piloto_services import piloto_lider
 from services.resultados_service import resultados_corrida
 from services.clima_service import clima
 from utils.scraping.noticias import noticiaF1
+from utils.acesso_circuito import circuito
 
 infos_rodada = rodadas()
 infos_lider = piloto_lider()
@@ -16,6 +17,7 @@ prox_circuito = infos_rodada.circuito
 prox_corrida = infos_rodada.prox_corrida
 proxima_cidade = infos_rodada.localidade
 prox_data = infos_rodada.prox_corrida_data
+circuitoId = infos_rodada.circuit_id
 
 lider_atual = infos_lider.lider
 pontuacao_lider = infos_lider.pontos
@@ -51,12 +53,12 @@ def pagina_inicial():
             f"""
                 <div class='metric-card'>
                     <div>
-                        <p style='margin:0; font-size:20px; font-weight:bold;'>Corridas Restantes:</p>
-                        <p style='margin:4px 0 0 0; color:#990012; font-size:26px; font-weight:bold;'>{corridas_restantes} <span style='font-size:16px; color:gray; font-weight:normal;'>de {total_rodadas}</span></p>
+                        <p style='margin:0; font-size:20px; font-weight:bold;'>Progresso da Temporada:</p>
+                        <p style='margin:4px 0 0 0; color:#990012; font-size:26px; font-weight:bold;'>{corridas_restantes} <span style='font-size:16px; color:gray; font-weight:normal;'>corridas restantes</span></p>
                     </div>
                     <div style='display:flex; justify-content:space-between;'>
-                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>{rodada_atual} disputadas</p>
-                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>{corridas_restantes} restantes</p>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>Round {rodada_atual+1}/{total_rodadas}</p>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>{rodada_atual} GPs concluídos</p>
                     </div>
             </div>
             """,
@@ -110,8 +112,8 @@ def pagina_inicial():
                 <div style='padding: 4px 0 12px; gap: 30px'>
 
                     <div style='display: flex; align-items: center; gap: 8px; margin-bottom: 16px;'>
-                        <span style='font-size: 20px; color: #aaa;'>Previsão do Tempo —</span>
-                        <span style='font-size: 20px; font-weight: 600;'>{prox_circuito} · {proxima_cidade}</span>
+                        <span style='font-size: 20px; font-weight: 600;'>Previsão do Tempo —</span>
+                        <span style='font-size: 20px; color: #aaa;'>{prox_circuito} · {proxima_cidade}</span>
                     </div>
 
                     <div style='display: flex; align-items: center; gap: 14px; margin-bottom: 16px;'>
@@ -145,6 +147,76 @@ def pagina_inicial():
             )
     with col6:
         container = st.container(border=True, height=400)
+        container.markdown(
+            f"""
+                <h4 style='margin: -20px; padding:20px; font-size: 20px'>Últimas Notícias:</h4>
+            """,
+            unsafe_allow_html=True
+        )
+        for titulo, hora, link in zip(noticiaF1()["titulos"], noticiaF1()["hora"], noticiaF1()["links"]):
+            container.write(titulo)
+            container.caption(f"{hora} atrás")
+            container.link_button("Ler Notícia", link, use_container_width=True)
+            container.divider()
+        
+    col7, col8= st.columns(2)
+    with col7:    
+        container = st.container(border=True, height=450)
+
+        with container:
+            text_col, img_col = st.columns([3, 2])
+
+            with text_col:
+                st.markdown(
+                    f"""
+                        <div style='display: flex; align-items: center; gap: 8px; margin-bottom: 16px;'>
+                            <span style='font-size: 20px; font-weight: 600;'>Próxima Corrida —</span>
+                            <span style='font-size: 20px; color: #aaa;'>{circuito()[circuitoId][1]}</span>
+                        </div>
+
+                        <div style='align-items: center; gap: 8px; margin-bottom: 16px;'>
+                            <p style='margin: 4px 0 0; font-size: 13px; color: #aaa;'>País</p>
+                            <p style='margin: 0; font-size: 18px; font-weight: 600;'>{circuito()[circuitoId][0]} - {proxima_cidade}</p>
+                        </div>
+                        <div style='align-items: center; gap: 8px; margin-bottom: 16px;'>
+                            <p style='margin: 4px 0 0; font-size: 13px; color: #aaa;'>Extensão da Volta</p>
+                            <p style='margin: 0; font-size: 18px; font-weight: 600;'>{circuito()[circuitoId][2]}Km</p>
+                        </div>
+                        <div style='align-items: center; gap: 8px; margin-bottom: 16px;'>
+                            <p style='margin: 4px 0 0; font-size: 13px; color: #aaa;'>Número de Voltas</p>
+                            <p style='margin: 0; font-size: 18px; font-weight: 600;'>{circuito()[circuitoId][4]}</p>
+                        </div>
+                        <div style='align-items: center; gap: 8px; margin-bottom: 16px;'>
+                            <p style='margin: 4px 0 0; font-size: 13px; color: #aaa;'>Tipo de Pista</p>
+                            <p style='margin: 0; font-size: 18px; font-weight: 600;'>{circuito()[circuitoId][5]}</p>
+                        </div>
+                        <div style='align-items: center; gap: 8px; margin-bottom: 16px;'>
+                            <p style='margin: 4px 0 0; font-size: 13px; color: #aaa;'>Recorde da Volta</p>
+                            <p style='margin: 0; font-size: 18px; font-weight: 600;'>{circuito()[circuitoId][3]}</p>
+                        </div>
+                    """,
+                    unsafe_allow_html=True
+                )          
+            with img_col:
+                import base64
+
+                with img_col:
+                    try:
+                        with open(f"assets/pistas/{circuito()[circuitoId][1]}.png", "rb") as f:
+                            img_b64 = base64.b64encode(f.read()).decode()
+                        st.markdown(
+                            f"""
+                            <div style='display: flex; align-items: center; justify-content: center; height: 100%; padding-top: 70px; margin-left: -90px;'>
+                                <img src="data:image/png;base64,{img_b64}" width="280"/>
+                            </div>
+                            """,
+                            unsafe_allow_html=True
+                        )
+                    except:
+                        pass
+
+    with col8:
+        container = st.container(border=True, height=450)
         container.markdown(
             f"""
                 <h4 style='margin: -20px; padding:20px; font-size: 20px'>Últimas Notícias:</h4>

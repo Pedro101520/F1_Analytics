@@ -1,0 +1,194 @@
+{
+    "Australian Grand Prix" : [
+        "Austrália",
+        "Albert Park",
+        "5.278",
+        "1:19.813 - Charles Leclerc (2024)",
+        58,
+        "Circuito de Rua"
+    ],
+    "Chinese Grand Prix" : [
+        "China",
+        "Circuito Internacional de Xangai",
+        "5.451",
+        "1:32.238 - Michael Schumacher (2004)",
+        56,
+        "Circuito Fechado"
+    ],
+    "Japanese Grand Prix" : [
+        "Japão",
+        "Suzuka",
+        "5.807",
+        "1:30.965 - Andrea Kimi Antonelli (2019)",
+        53,
+        "Circuito Fechado"
+    ],
+    "Bahrain Grand Prix" : [
+        "Bahrein",
+        "Circuito Internacional do Barém",
+        "5.421",
+        "1:31.447 - Pedro de la Rosa (2005)",
+        57,
+        "Circuito Fechado"
+    ],
+    "Saudi Arabian Grand Prix" : [
+        "Arábia Saudita",
+        "Corniche de Jeddah",
+        "6.174",
+        "1:30.734 - Lewis Hamilton (2021)",
+        50,
+        "Circuito de Rua"
+    ],
+    "Miami Grand Prix" : [
+        "EUA",
+        "Autódromo Internacional de Miami",
+        "5.412",
+        "1:29.708 - Max Verstappen (2023)",
+        57,
+        "Circuito de Rua"
+    ],
+    "Emilia Romagna Grand Prix" : [
+        "Itália",
+        "Autódromo Internacional Enzo e Dino Ferrari",
+        "4.909",
+        "1:15.484 - Lewis Hamilton (2020)",
+        63,
+        "Circuito de Rua"
+    ],
+    "Monaco Grand Prix" : [
+        "Mônaco",
+        "Circuito de Mônaco",
+        "3.337",
+        "1:12.909 - Lewis Hamilton (2021)",
+        78,
+        "Circuito de Rua"
+    ],
+    "Spanish Grand Prix" : [
+        "Espanha",
+        "Circuito de Barcelona-Catalunha",
+        "4.657",
+        "1:16.330 - Max Verstappen (2023)",
+        66,
+        "Circuito Fechado"
+    ],
+    "Canadian Grand Prix" : [
+        "Canadá",
+        "Circuito Gilles-Villeneuve",
+        "4.361",
+        "1:13.078 - Valtteri Bottas (2019)",
+        70,
+        "Circuito Fechado"
+    ],
+    "Austrian Grand Prix" : [
+        "Áustria",
+        "Red Bull Ring",
+        "4.318",
+        "1:05.619 - Carlos Sainz (2020)",
+        71,
+        "Circuito Fechado"
+    ],
+    "British Grand Prix" : [
+        "Inglaterra",
+        "Silverstone",
+        "5.891",
+        "1:27.097 - Max Verstappen (2020)",
+        52,
+        "Circuito Fechado"
+    ],
+    "Belgian Grand Prix" : [
+        "Bélgica",
+        "Spa-Francorchamps",
+        "7.004",
+        "1:46.286 - Valtteri Bottas (2018)",
+        44,
+        "Circuito Fechado"
+    ],
+    "Hungarian Grand Prix" : [
+        "Hungria",
+        "Hungaroring",
+        "4.381",
+        "1:16.627 - Lewis Hamilton (2020)",
+        70,
+        "Circuito Fechado"
+    ],
+    "Dutch Grand Prix" : [
+        "Holanda",
+        "Zandvoort",
+        "4.259",
+        "1:11.097 - Lewis Hamilton (2021)",
+        72,
+        "Circuito Fechado"
+    ],
+    "Italian Grand Prix" : [
+        "Itália",
+        "Monza",
+        "5.793",
+        "1:21.046 - Rubens Barrichello (2004)",
+        53,
+        "Circuito Fechado"
+    ],
+    "Azerbaijan Grand Prix" : [
+        "Azerbaijão",
+        "Circuito Urbano de Baku",
+        "6.003",
+        "1:43.009 - Charles Leclerc (2019)",
+        51,
+        "Circuito de Rua"
+    ],
+    "Singapore Grand Prix" : [
+        "Singapura",
+        "Marina Bay",
+        "4.940",
+        "1:35.867 - Lewis Hamilton (2023)",
+        62,
+        "Circuito de Rua"
+    ],
+    "United States Grand Prix" : [
+        "EUA",
+        "Circuito das Américas",
+        "5.513",
+        "1:36.169 - Charles Leclerc (2019)",
+        56,
+        "Circuito Fechado"
+    ],
+    "Mexico City Grand Prix" : [
+        "México",
+        "Autódromo Hermanos Rodríguez",
+        "4.304",
+        "1:17.774 - Valtteri Bottas (2021)",
+        71,
+        "Circuito Fechado"
+    ],
+    "São Paulo Grand Prix" : [
+        "Brasil",
+        "Interlagos",
+        "4.309",
+        "1:10.540 - Valtteri Bottas (2018)",
+        71,
+        "Circuito Fechado"
+    ],
+    "Las Vegas Grand Prix" : [
+        "EUA",
+        "Las Vegas Strip Circuit",
+        "6.201",
+        "1:33.365 - Max Verstappen (2025)",
+        50,
+        "Circuito de Rua"
+    ],
+    "Qatar Grand Prix" : [
+        "Catar",
+        "Circuito Internacional de Lusail",
+        "5.419",
+        "1:22.384 - Lando Norris (2024)",
+        57,
+        "Circuito Fechado"
+    ],
+    "Abu Dhabi Grand Prix" : [
+        "Emirados Árabes Unidos",
+        "Yas Marina",
+        "5.281",
+        "1:25.637 - Kevin Magnussen (2024)",
+        58,
+        "Circuito Fechado"
+    ]
+}
