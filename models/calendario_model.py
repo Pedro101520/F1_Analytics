@@ -2,7 +2,7 @@ from datetime import datetime
 import json
 
 class Calendario:
-    def __init__(self, total_rodadas, rodada_atual):
+    def __init__(self, total_rodadas, rodada_atual, prox_corrida_calendario):
         self.total_rodadas = total_rodadas
         self.round = int(rodada_atual["round"]) - 1
 
@@ -32,3 +32,5 @@ class Calendario:
 
         self.lat = rodada_atual["Circuit"]["Location"]["lat"]
         self.long = rodada_atual["Circuit"]["Location"]["long"]
+
+        self.prox_corrida_calendario = prox_corrida_calendario

@@ -63,13 +63,21 @@
         78,
         "Circuito de Rua"
     ],
-    "Spanish Grand Prix" : [
+    "Barcelona Grand Prix" : [
         "Espanha",
         "Circuito de Barcelona-Catalunha",
         "4.657",
         "1:16.330 - Max Verstappen (2023)",
         66,
         "Circuito Fechado"
+    ],
+    "Spanish Grand Prix" : [
+        "Espanha",
+        "Circuito de Madring",
+        "5.474",
+        "",
+        57,
+        "Circuito de Rua"
     ],
     "Canadian Grand Prix" : [
         "Canadá",
@@ -159,7 +167,7 @@
         71,
         "Circuito Fechado"
     ],
-    "São Paulo Grand Prix" : [
+    "Brazilian Grand Prix" : [
         "Brasil",
         "Interlagos",
         "4.309",

@@ -22,4 +22,20 @@ def rodadas():
         if data_atual.date() <= data.date():
             break
     
-    return Calendario(total_rodadas, rodada_atual)
+    prox_corrida_calendario = []
+    prox_corridas_pais = []
+    prox_grandes_premios = []
+    for i in acesso:
+        data = datetime.strptime(i["date"], "%Y-%m-%d")
+
+        if data.date() >= data_atual.date(): 
+            prox_corrida_calendario.append(i["date"])
+            prox_corridas_pais.append(i["Circuit"]["Location"]["country"])
+            prox_grandes_premios.append(i["raceName"])
+    
+    infos_corridas = {
+        "datas": prox_corrida_calendario,
+        "premio": prox_grandes_premios
+    }
+
+    return Calendario(total_rodadas, rodada_atual, infos_corridas)

@@ -5,6 +5,7 @@ from services.resultados_service import resultados_corrida
 from services.clima_service import clima
 from utils.scraping.noticias import noticiaF1
 from utils.acesso_circuito import circuito
+from utils.acesso_corrida import corrida
 
 infos_rodada = rodadas()
 infos_lider = piloto_lider()
@@ -18,6 +19,7 @@ prox_corrida = infos_rodada.prox_corrida
 proxima_cidade = infos_rodada.localidade
 prox_data = infos_rodada.prox_corrida_data
 circuitoId = infos_rodada.circuit_id
+proximas_corridas = infos_rodada.prox_corrida_calendario
 
 lider_atual = infos_lider.lider
 pontuacao_lider = infos_lider.pontos
@@ -217,14 +219,52 @@ def pagina_inicial():
 
     with col8:
         container = st.container(border=True, height=450)
-        container.markdown(
-            f"""
-                <h4 style='margin: -20px; padding:20px; font-size: 20px'>Últimas Notícias:</h4>
-            """,
-            unsafe_allow_html=True
-        )
-        for titulo, hora, link in zip(noticiaF1()["titulos"], noticiaF1()["hora"], noticiaF1()["links"]):
-            container.write(titulo)
-            container.caption(f"{hora} atrás")
-            container.link_button("Ler Notícia", link, use_container_width=True)
-            container.divider()
+        with container:
+            
+            linhas_html = ""
+            for data, premio in zip(proximas_corridas["datas"], proximas_corridas["premio"]):
+                pais_nome = circuito()[premio][0]
+                corrida_nome = corrida()[premio]
+                linhas_html += f"""
+                    <tr>
+                        <td>{data}</td>
+                        <td>{pais_nome}</td>
+                        <td>{corrida_nome}</td>
+                    </tr>
+                """
+
+            tabela_html = f"""
+                <style>
+                    .f1-table {{
+                        width: 100%;
+                        border-collapse: collapse;
+                        font-family: sans-serif;
+                        font-size: 14px;
+                    }}
+                    .f1-table td {{
+                        padding: 8px 12px;
+                        border-bottom: 1px solid #2a2a2a;
+                        color: #e0e0e0;
+                    }}
+                    .f1-table tr:hover td {{
+                        background-color: #1e1e1e;
+                    }}
+                    .f1-table td:first-child {{
+                        color: #888;
+                        white-space: nowrap;
+                    }}
+                    .f1-table td:last-child {{
+                        color: #ffffff;
+                        font-weight: 500;
+                    }}
+                </style>
+                <table class="f1-table">
+                    {linhas_html}
+                </table>
+            """
+            st.html(f"""
+                <div style='display: flex; align-items: center; gap: 8px; margin-bottom: 16px;'>
+                    <span style='font-size: 20px; font-weight: 600;'>Próximas Corridas:</span>
+                </div>
+            """)              
+            st.html(tabela_html)
