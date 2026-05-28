@@ -1,10 +1,12 @@
 import requests
 from models.clima_model import InfoClima
+import streamlit as st
 
 from services.calendario_service import rodadas
 
 infos_rodada = rodadas()
 
+@st.cache_data
 def clima():
     latitute = (infos_rodada.lat)
     longetude = infos_rodada.long

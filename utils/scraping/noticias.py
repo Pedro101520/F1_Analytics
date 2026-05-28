@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 import pytz
+import streamlit as st
 
 url = "https://motorsport.uol.com.br/f1/news/"
 
@@ -16,6 +17,7 @@ headers = {
 response = requests.get(url, headers=headers)
 parsed_html = BeautifulSoup(response.text, "html.parser")
 
+@st.cache_data
 def noticiaF1():
     lista_titulos = []
     titulos = parsed_html.find_all('div', attrs={'class': 'ms-item__info'})
