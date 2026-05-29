@@ -6,15 +6,9 @@ def info_pilotos():
     st.write("")
     option = st.selectbox(
         "Selecione um Piloto",
-        lista_id()["nome"],
+        lista_id(),
         width=250
     )   
-
-    for indice, valor in enumerate(lista_id()["nome"]):
-        if valor == option:
-            option = lista_id()["id"][indice]
-            break
-    print(option)
 
     infos_estatisticas = estatisticas_piloto(option)
 
@@ -49,7 +43,7 @@ def info_pilotos():
 
                     <hr style='margin: 0; opacity: 0.2;'>
 
-                    <div style='display: flex; justify-content: space-between; padding-bottom: 0.25rem;'>
+                    <div style='display: flex; justify-content: space-between; padding-bottom: 1.0rem;'>
                         <div>
                             <p style='margin: 0; font-size: 11px; color: gray; text-transform: uppercase; letter-spacing: 0.05em;'>Idade</p>
                             <p style='margin: 6px 0 0; font-size: 24px; font-weight: bold;'>{infos_estatisticas.idade}</p>
@@ -60,7 +54,7 @@ def info_pilotos():
                         </div>
                         <div style='text-align: right;'>
                             <p style='margin: 0; font-size: 11px; color: gray; text-transform: uppercase; letter-spacing: 0.05em;'>Títulos Mundiais</p>
-                            <p style='margin: 6px 0 0; font-size: 24px; font-weight: bold;'>{infos_estatisticas.mundial}</p>
+                            <p style='margin: 6px 0 0; font-size: 24px; font-weight: bold;'>infos_estatisticas.mundial</p>
                         </div>
                     </div>
 
@@ -69,7 +63,157 @@ def info_pilotos():
             )
 
     with col2:
-        st.container(border=True).markdown(
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            container = st.container(border=True, height=142) 
+            with container:
+                st.markdown(
+                    f"""
+                    <div class='metric-card'>
+                        <div>
+                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
+                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                        </div>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
+                    </div>
+                    """, unsafe_allow_html=True
+                )
+        with col2:
+            container = st.container(border=True, height=142) 
+            with container:
+                st.markdown(
+                    f"""
+                    <div class='metric-card'>
+                        <div>
+                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
+                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                        </div>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
+                    </div>
+                    """, unsafe_allow_html=True
+                )
+        with col3:
+            container = st.container(border=True, height=142) 
+            with container:
+                st.markdown(
+                    f"""
+                    <div class='metric-card'>
+                        <div>
+                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
+                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                        </div>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
+                    </div>
+                    """, unsafe_allow_html=True
+                )
+        with col4:
+            container = st.container(border=True, height=142) 
+            with container:
+                st.markdown(
+                    f"""
+                    <div class='metric-card'>
+                        <div>
+                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
+                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                        </div>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
+                    </div>
+                    """, unsafe_allow_html=True
+                )
+
+        col5, col6, col7, col8 = st.columns(4)
+        with col5:
+            container = st.container(border=True, height=142) 
+            with container:
+                st.markdown(
+                    f"""
+                    <div class='metric-card'>
+                        <div>
+                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
+                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                        </div>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
+                    </div>
+                    """, unsafe_allow_html=True
+                )
+        with col6:
+            container = st.container(border=True, height=142) 
+            with container:
+                st.markdown(
+                    f"""
+                    <div class='metric-card'>
+                        <div>
+                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
+                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                        </div>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
+                    </div>
+                    """, unsafe_allow_html=True
+                )
+        with col7:
+            container = st.container(border=True, height=142) 
+            with container:
+                st.markdown(
+                    f"""
+                    <div class='metric-card'>
+                        <div>
+                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
+                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                        </div>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
+                    </div>
+                    """, unsafe_allow_html=True
+                )
+        with col8:
+            container = st.container(border=True, height=142) 
+            with container:
+                st.markdown(
+                    f"""
+                    <div class='metric-card'>
+                        <div>
+                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
+                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                        </div>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
+                    </div>
+                    """, unsafe_allow_html=True
+                )
+
+
+    col1, col2= st.columns([2,1]) 
+    with col1:
+        container = st.container(border=True, height=300) 
+        with container:
+            st.markdown(
+                f"""
+                <div class='metric-card'>
+                    <div>
+                        <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
+                        <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                    </div>
+                    <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
+                </div>
+                """, unsafe_allow_html=True
+            )
+    with col2:
+        container = st.container(border=True, height=300) 
+        with container:
+            st.markdown(
+                f"""
+                <div class='metric-card'>
+                    <div>
+                        <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
+                        <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                    </div>
+                    <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
+                </div>
+                """, unsafe_allow_html=True
+            )
+    
+
+    container = st.container(border=True, height=325) 
+    with container:
+        st.markdown(
             f"""
             <div class='metric-card'>
                 <div>

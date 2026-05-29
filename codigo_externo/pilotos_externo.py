@@ -1,6 +1,8 @@
 import requests
 from datetime import datetime
-import time
+from google.cloud import storage
+import json
+import os
 
 ano_atual = datetime.now().year
 hoje = datetime.now().date()
@@ -97,3 +99,16 @@ def estatisticas():
                 
     return infos_pilotos
 
+def salva_gcs():
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "clever-axe-457319-g8-833d2d4ab67f.json"
+
+    client = storage.Client()
+    bucket = client.bucket("f1-dashboard-pilotos")
+    blob = bucket.blob("f1_pilotos.json")
+
+    blob.upload_from_string(
+        json.dumps(estatisticas(), ensure_ascii=False, indent=2),
+        content_type="application/json"
+    )
+
+salva_gcs()

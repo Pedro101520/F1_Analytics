@@ -5,7 +5,7 @@ class Lider:
         self.pontos = lider["points"]
 
 class Estatisticas:
-    def __init__(self, nome, sobrenome, nacionalidade, idade, numero, equipe, vitorias, podio, melhor_resultado, abandonos, estreia, mundial):
+    def __init__(self, nome, sobrenome, nacionalidade, idade, estreia, posicao, pontos, sigla, numero, equipe, vitorias, podios, melhor_resultado, abandonos):
         self.nome = nome
         self.sobrenome = sobrenome
         self.nacionalidade = nacionalidade
@@ -13,8 +13,10 @@ class Estatisticas:
         self.numero = numero
         self.equipe = equipe
         self.vitorias = vitorias
-        self.podio = podio
+        self.podios = podios
         self.melhor_resultado = melhor_resultado
         self.abandonos = abandonos
         self.estreia = estreia
-        self.mundial = mundial
+        self.posicao = posicao
+        self.sigla = sigla
+        self.pontos = pontos
