@@ -3,6 +3,7 @@ from datetime import datetime
 from google.cloud import storage
 import json
 import os
+import time
 
 ano_atual = datetime.now().year
 hoje = datetime.now().date()
@@ -20,6 +21,7 @@ def lista_id():
 nome_id = lista_id()
 
 def inicio_f1():
+    time.sleep(60)
     estreia = {}
     for i in nome_id["id"]:
         acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/drivers/{i}/results/?limit=10&offset=0").json()
@@ -37,6 +39,7 @@ def inicio_f1():
 estreia = inicio_f1()
 
 def posicao_campeonato():
+    time.sleep(60)
     posicao = {}
     for i in nome_id["id"]:
         acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/drivers/{i}/driverstandings/").json()
@@ -55,7 +58,74 @@ def posicao_campeonato():
     return posicao
 posicao = posicao_campeonato()
 
+def pole_position():
+    time.sleep(60)
+    pole = {}
+    for i in nome_id["id"]:
+        acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/drivers/{i}/qualifying/1/").json()
+        if i not in pole:
+            pole[i] = {
+                "qtde_pole_position": acesso["MRData"]["total"]
+            }
+
+    return pole
+pole = pole_position()
+
+def media_posicao():
+    time.sleep(60)
+    media = {}
+    for i in nome_id["id"]:
+        acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/drivers/{i}/results/").json()
+        if i not in media:
+            media[i] = {
+                "media": "N/A"
+            }
+        
+        grid = 0
+        total_valido = 0
+        for j in acesso["MRData"]["RaceTable"]["Races"]:
+            grid_posicao = int(j["Results"][0]["grid"])
+            if grid_posicao > 0:
+                grid += grid_posicao
+                total_valido += 1
+        
+        if total_valido  > 0:
+            media[i]["media"] = str(grid / total_valido)
+
+    return media
+largada = media_posicao()
+
+
+def calculo_mundial():
+    time.sleep(60)
+    mundiais = {}
+
+    lista_estreia = []
+    for i in nome_id["id"]:
+        lista_estreia.append(estreia[i]["ano"])
+
+    if 0 in lista_estreia:
+        lista_estreia.remove(0)
+    menor_ano = min(lista_estreia)
+
+    for i in nome_id["id"]:
+        if i not in mundiais:
+            mundiais[i] = {
+                "qtde_mundial": 0
+            }
+
+    for i in range(int(menor_ano), int(ano_atual)):
+        acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/{i}/driverstandings/1.json").json()
+        vencedor_mundial = acesso["MRData"]["StandingsTable"]["StandingsLists"][0]["DriverStandings"][0]["Driver"]["driverId"]
+        if vencedor_mundial in mundiais:
+            mundiais[vencedor_mundial]["qtde_mundial"] += 1
+    
+    return mundiais
+
+qtde_mundial = calculo_mundial()
+
 def estatisticas():
+    time.sleep(60)
     infos_pilotos = {}
 
     for i in nome_id["id"]:
@@ -75,12 +145,15 @@ def estatisticas():
                     "idade": idade,
                     "estreia": estreia[i]["ano"],
                     "posicao": posicao[i]["posicao"],
+                    "media_largada": largada[i]["media"],
                     "pontos": posicao[i]["pontos"],
+                    "pole_position": pole[i]["qtde_pole_position"],
                     "sigla": j["Results"][0]["Driver"]["code"],
                     "numero": j["Results"][0]["number"],
                     "equipe": j["Results"][0]["Constructor"]["name"],
                     "vitorias": 0,
                     "podios": 0,
+                    "qtde_mundial": qtde_mundial[i]["qtde_mundial"],
                     "melhor_resultado": int(j["Results"][0]["position"]),
                     "abandonos": 0
                 }

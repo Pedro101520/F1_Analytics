@@ -33,11 +33,14 @@ def info_pilotos():
                     </div>
 
                     <div style='display: flex; gap: 8px;'>
-                        <span style='font-size: 12px; padding: 4px 12px; border-radius: 999px; border: 1px solid #e0e0e0; color: gray;'>
+                        <span style='font-size: 12px; padding: 4px 12px; border-radius: 999px; border: 1px solid #e0e0e0; color: #990012; background: #FFE5E8; font-weight: bold;'>
                             {infos_estatisticas.nacionalidade}
                         </span>
-                        <span style='font-size: 12px; padding: 4px 12px; border-radius: 999px; border: 1px solid #e0e0e0; color: gray;'>
+                        <span style='font-size: 12px; padding: 4px 12px; border-radius: 999px; border: 1px solid #e0e0e0; color: #990012; background: #FFE5E8; font-weight: bold;'>
                             {infos_estatisticas.equipe}
+                        </span>
+                        <span style='font-size: 12px; padding: 4px 12px; border-radius: 999px; border: 1px solid #e0e0e0; color: #990012; background: #FFE5E8; font-weight: bold;'>
+                            {infos_estatisticas.sigla}
                         </span>
                     </div>
 
@@ -54,7 +57,7 @@ def info_pilotos():
                         </div>
                         <div style='text-align: right;'>
                             <p style='margin: 0; font-size: 11px; color: gray; text-transform: uppercase; letter-spacing: 0.05em;'>Títulos Mundiais</p>
-                            <p style='margin: 6px 0 0; font-size: 24px; font-weight: bold;'>infos_estatisticas.mundial</p>
+                            <p style='margin: 6px 0 0; font-size: 24px; font-weight: bold;'>{infos_estatisticas.qtde_mundial}</p>
                         </div>
                     </div>
 
@@ -70,11 +73,10 @@ def info_pilotos():
                 st.markdown(
                     f"""
                     <div class='metric-card'>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 15px; text-align:center;'>Posição no Campeonato</p>
                         <div>
-                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
-                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                            <p style='margin:0; font-size:36px; font-weight:bold; text-align:center;'>{infos_estatisticas.posicao}º</p>
                         </div>
-                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
                     </div>
                     """, unsafe_allow_html=True
                 )
@@ -84,11 +86,10 @@ def info_pilotos():
                 st.markdown(
                     f"""
                     <div class='metric-card'>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 15px; text-align:center;'>Pontuação</p>
                         <div>
-                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
-                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                            <p style='margin:0; font-size:36px; font-weight:bold; text-align:center;'>{infos_estatisticas.pontos}</p>
                         </div>
-                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
                     </div>
                     """, unsafe_allow_html=True
                 )
@@ -98,11 +99,10 @@ def info_pilotos():
                 st.markdown(
                     f"""
                     <div class='metric-card'>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 15px; text-align:center;'>Vitórias</p>
                         <div>
-                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
-                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                            <p style='margin:0; font-size:36px; font-weight:bold; text-align:center;'>{infos_estatisticas.vitorias}</p>
                         </div>
-                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
                     </div>
                     """, unsafe_allow_html=True
                 )
@@ -112,11 +112,10 @@ def info_pilotos():
                 st.markdown(
                     f"""
                     <div class='metric-card'>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 15px; text-align:center;'>Pódios</p>
                         <div>
-                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
-                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                            <p style='margin:0; font-size:36px; font-weight:bold; text-align:center;'>{infos_estatisticas.podios}</p>
                         </div>
-                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
                     </div>
                     """, unsafe_allow_html=True
                 )
@@ -128,11 +127,10 @@ def info_pilotos():
                 st.markdown(
                     f"""
                     <div class='metric-card'>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 15px; text-align:center;'>Pole Positions</p>
                         <div>
-                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
-                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                            <p style='margin:0; font-size:36px; font-weight:bold; text-align:center;'>{infos_estatisticas.pole_positions}</p>
                         </div>
-                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
                     </div>
                     """, unsafe_allow_html=True
                 )
@@ -142,11 +140,10 @@ def info_pilotos():
                 st.markdown(
                     f"""
                     <div class='metric-card'>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 15px; text-align:center;'>Melhor Resultado</p>
                         <div>
-                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
-                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                            <p style='margin:0; font-size:36px; font-weight:bold; text-align:center;'>{infos_estatisticas.melhor_resultado}º</p>
                         </div>
-                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
                     </div>
                     """, unsafe_allow_html=True
                 )
@@ -156,11 +153,10 @@ def info_pilotos():
                 st.markdown(
                     f"""
                     <div class='metric-card'>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 15px; text-align:center;'>Média de Largada</p>
                         <div>
-                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
-                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                            <p style='margin:0; font-size:36px; font-weight:bold; text-align:center;'>{infos_estatisticas.media_largada}</p>
                         </div>
-                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
                     </div>
                     """, unsafe_allow_html=True
                 )
@@ -170,15 +166,13 @@ def info_pilotos():
                 st.markdown(
                     f"""
                     <div class='metric-card'>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 15px; text-align:center;'>Abandonos</p>
                         <div>
-                            <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
-                            <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+                            <p style='margin:0; font-size:36px; font-weight:bold; text-align:center;'>{infos_estatisticas.abandonos}</p>
                         </div>
-                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
                     </div>
                     """, unsafe_allow_html=True
                 )
-
 
     col1, col2= st.columns([2,1]) 
     with col1:
