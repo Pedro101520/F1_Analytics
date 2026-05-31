@@ -1,4 +1,5 @@
 import streamlit as st
+import plotly.graph_objects as go
 
 from services.piloto_services import estatisticas_piloto, lista_id
 
@@ -178,17 +179,75 @@ def info_pilotos():
     with col1:
         container = st.container(border=True, height=300) 
         with container:
-            st.markdown(
-                f"""
-                <div class='metric-card'>
-                    <div>
-                        <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
-                        <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
-                    </div>
-                    <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
-                </div>
-                """, unsafe_allow_html=True
+            rodadas = [i["round"] for i in infos_estatisticas.pontuacao_individual]
+            pontos = [i["ponto_por_corrida"] for i in infos_estatisticas.pontuacao_individual]
+            posicoes = []
+            for i in infos_estatisticas.pontuacao_individual:
+                try:
+                   posicoes.append(int(i["posicao"]))
+                except:
+                    posicoes.append(None) 
+
+            dados = {
+                "rodadas": rodadas,
+                "posicoes": posicoes,
+                "pontos": pontos
+            }
+
+            fig = go.Figure()
+
+            fig.add_trace(go.Bar(
+                x=dados["rodadas"],
+                y=dados["pontos"],
+                name="Pontos",
+                marker_color="#990012",
+                opacity=0.8,
+            ))
+
+            fig.add_trace(go.Scatter(
+                x=dados["rodadas"],
+                y=dados["posicoes"],
+                mode="lines+markers",
+                name="Posição",
+                yaxis="y2",
+                line=dict(color="#4A90D9", width=4),
+                marker=dict(color="#4A90D9", size=6),
+                line_shape="spline",
+            ))
+
+            fig.update_layout(
+                height=280,
+                title="Evolução do Piloto na Temporada",
+                hovermode="x unified",
+                plot_bgcolor="rgba(0,0,0,0)",
+                paper_bgcolor="rgba(0,0,0,0)",
+                margin=dict(l=40, r=40, t=60, b=40),
+                legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                bargap=0.3,      
+                xaxis=dict(
+                    tickmode="array",
+                    tickvals=dados["rodadas"],
+                    showgrid=False,
+                ),
+                yaxis=dict(
+                    title="Pontos",
+                    showgrid=True,
+                    gridcolor="rgba(255,255,255,0.05)",
+                ),
+                yaxis2=dict(
+                    title="Posição",
+                    overlaying="y",
+                    side="right",
+                    autorange="reversed",
+                    showgrid=False,
+                ),
             )
+
+            st.plotly_chart(fig, use_container_width=True)
+
+
+
+
     with col2:
         container = st.container(border=True, height=300) 
         with container:

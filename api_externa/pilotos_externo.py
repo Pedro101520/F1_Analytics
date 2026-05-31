@@ -124,6 +124,48 @@ def calculo_mundial():
 
 qtde_mundial = calculo_mundial()
 
+
+def pontos_posicao():
+    time.sleep(60)
+    posicao_valor = []
+    for i in nome_id["id"]:
+        acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/drivers/{i}/results/").json()
+        acesso_sprint = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/drivers/{i}/sprint/").json()
+        rodada = acesso["MRData"]["RaceTable"]["Races"]
+        rodada_sprint = acesso_sprint["MRData"]["RaceTable"]["Races"]
+
+        dicionario_sprint = {}
+        for sprint in rodada_sprint:
+            if sprint["round"] not in dicionario_sprint:
+                dicionario_sprint[sprint["round"]] = sprint["SprintResults"][0]["points"]
+
+        for j in rodada:
+            posicao_valor.append({
+                "id_piloto": j["Results"][0]["Driver"]["driverId"],
+                "gp": j["Circuit"]["circuitName"],
+                "round": j["round"],
+                "ponto_por_corrida": j["Results"][0]["points"],
+                "posicao": j["Results"][0]["positionText"],
+                "pontos_sprint": dicionario_sprint.get(j["round"], "0")
+            })
+    return posicao_valor
+info_por_corrida = pontos_posicao()
+
+info_agrupada = {}
+for i in info_por_corrida:
+    if i["id_piloto"] not in info_agrupada:
+        info_agrupada[i["id_piloto"]] = {
+            "corridas": []
+        }
+    
+    info_agrupada[i["id_piloto"]]["corridas"].append({
+        "gp": i["gp"],
+        "round": i["round"],
+        "ponto_por_corrida": i["ponto_por_corrida"],
+        "posicao": i["posicao"],
+        "pontos_por_sprint": i["pontos_sprint"]
+    })
+
 def estatisticas():
     time.sleep(60)
     infos_pilotos = {}
@@ -134,7 +176,7 @@ def estatisticas():
         for j in aceso_info:
             aniversario = datetime.strptime(j["Results"][0]["Driver"]["dateOfBirth"], "%Y-%m-%d").date()
             idade = hoje.year - aniversario.year
-            if hoje.month <= aniversario.month and hoje.day < aniversario.day:
+            if hoje.month <= aniversario.month and hoje.day <= aniversario.day:
                 idade -= 1
 
             if i not in infos_pilotos:
@@ -155,7 +197,8 @@ def estatisticas():
                     "podios": 0,
                     "qtde_mundial": qtde_mundial[i]["qtde_mundial"],
                     "melhor_resultado": int(j["Results"][0]["position"]),
-                    "abandonos": 0
+                    "abandonos": 0,
+                    "pontuacao_individual": info_agrupada[i]["corridas"]
                 }
 
             if int(j["Results"][0]["position"]) == 1:
