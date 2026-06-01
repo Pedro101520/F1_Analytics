@@ -1,15 +1,59 @@
 import streamlit as st
 import plotly.graph_objects as go
+from utils.acesso_corrida import corrida
 
 from services.piloto_services import estatisticas_piloto, lista_id
 
+def calculo_diferenca(info1, info2, inverte):
+    valor1 = float(info1)
+    valor2 = float(info2)
+
+    if inverte == False:
+        if valor1 < valor2:
+            return {
+                "html": "color:green",
+                "diferenca": f"▲ {abs(valor1 - valor2):.1f}"
+            }
+        elif valor1 > valor2:
+            return {
+                "html": "color:red",
+                "diferenca": f"▼ {(valor1 - valor2):.1f}"
+            }
+        elif valor1 == valor2:
+            return {
+                "html": "color:yellow",
+                "diferenca": "▬"
+            }
+    else:
+        if valor1 > valor2:
+            return {
+                "html": "color:green",
+                "diferenca": f"▲ {abs(valor1 - valor2):.1f}"
+            }
+        elif valor1 < valor2:
+            return {
+                "html": "color:red",
+                "diferenca": f"▼ {abs(valor1 - valor2):.1f}"
+            }
+        elif valor1 == valor2:
+            return {
+                "html": "color:yellow",
+                "diferenca": "▬"
+            }
+
+
 def info_pilotos():
-    st.write("")
     option = st.selectbox(
         "Selecione um Piloto",
-        lista_id(),
+        lista_id()["nomes"],
         width=250
     )   
+
+    persiste_option = option
+    for indice, valor in enumerate(lista_id()["nomes"]):
+        if valor == option:
+            option = lista_id()["ids"][indice]
+            break
 
     infos_estatisticas = estatisticas_piloto(option)
 
@@ -177,16 +221,23 @@ def info_pilotos():
 
     col1, col2= st.columns([2,1]) 
     with col1:
-        container = st.container(border=True, height=300) 
+        container = st.container(border=True, height=320) 
         with container:
-            rodadas = [i["round"] for i in infos_estatisticas.pontuacao_individual]
-            pontos = [i["ponto_por_corrida"] for i in infos_estatisticas.pontuacao_individual]
+            rodadas = [f"GP {i["round"]}" for i in infos_estatisticas.pontuacao_individual]
+            pontos = [int(i["ponto_por_corrida"]) + int(i["pontos_por_sprint"]) for i in infos_estatisticas.pontuacao_individual]
             posicoes = []
             for i in infos_estatisticas.pontuacao_individual:
                 try:
                    posicoes.append(int(i["posicao"]))
                 except:
                     posicoes.append(None) 
+
+            rotulo_gp = []
+            for i in infos_estatisticas.pontuacao_individual:
+                if corrida()[i["id_gp"]]:
+                    rotulo_gp.append(corrida()[i["id_gp"]])
+                else:
+                    rotulo_gp.append(i["id_gp"])
 
             dados = {
                 "rodadas": rodadas,
@@ -202,7 +253,10 @@ def info_pilotos():
                 name="Pontos",
                 marker_color="#990012",
                 opacity=0.8,
+                customdata=rotulo_gp,
+                hovertemplate="%{customdata} <br>Pontos: %{y}<extra></extra>",
             ))
+
 
             fig.add_trace(go.Scatter(
                 x=dados["rodadas"],
@@ -246,23 +300,125 @@ def info_pilotos():
             st.plotly_chart(fig, use_container_width=True)
 
 
-
-
     with col2:
-        container = st.container(border=True, height=300) 
+        container = st.container(border=True, height=320) 
         with container:
-            st.markdown(
-                f"""
-                <div class='metric-card'>
-                    <div>
-                        <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
-                        <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
+            col1, col2= st.columns(2)
+            with col1:
+                st.markdown(
+                    f"""
+                    <div class='metric-card'>
+                        <div>
+                            <p style='font-size:16px; font-weight:bold;'>Comparação entre pilotos</p>
+                        </div>
                     </div>
-                    <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
-                </div>
-                """, unsafe_allow_html=True
-            )
-    
+                    """, unsafe_allow_html=True
+                )
+            with col2:
+                nome_comparacao = []
+                for i in lista_id()["nomes"]:
+                    if i == persiste_option:
+                        continue
+                    else:
+                        nome_comparacao.append(i)
+
+                option = st.selectbox(
+                    "",
+                    nome_comparacao,
+                    label_visibility="collapsed",
+                    width=250
+                )   
+
+            persiste_piloto = option
+            for indice, valor in enumerate(lista_id()["nomes"]):
+                if valor == option:
+                    option = lista_id()["ids"][indice]
+                    break
+
+            infos_estatisticas_piloto = estatisticas_piloto(option)
+
+            linhas_html = f"""
+            <tr>
+                <td style='font-weight:bold;'></td>
+                <td style='font-weight:bold;'>{persiste_option}</td>
+                <td style='font-weight:bold;'>{persiste_piloto}</td>
+                <td style='font-weight:bold;'>Diferença</td>
+            </tr>
+            <tr>
+                <td style='font-weight:bold;'>Posição Campeonato</td>
+                <td style='font-weight:bold; text-align:left'>{infos_estatisticas.posicao}</td>
+                <td style='font-weight:bold;'>{infos_estatisticas_piloto.posicao}</td>
+                <td style='font-weight:bold; {calculo_diferenca(infos_estatisticas.posicao, infos_estatisticas_piloto.posicao, False)["html"]};'>{calculo_diferenca(infos_estatisticas.posicao, infos_estatisticas_piloto.posicao, False)["diferenca"]}</td>
+            </tr>
+            <tr>
+                <td style='font-weight:bold;'>Pontuação</td>
+                <td style='font-weight:bold;'>{infos_estatisticas.pontos}</td>
+                <td style='font-weight:bold;'>{infos_estatisticas_piloto.pontos}</td>
+                <td style='font-weight:bold; {calculo_diferenca(infos_estatisticas.pontos, infos_estatisticas_piloto.pontos, True)["html"]};'>{calculo_diferenca(infos_estatisticas.pontos, infos_estatisticas_piloto.pontos, True)["diferenca"]}</td>
+            </tr>
+            <tr>
+                <td style='font-weight:bold;'>Vitórias</td>
+                <td style='font-weight:bold;'>{infos_estatisticas.vitorias}</td>
+                <td style='font-weight:bold;'>{infos_estatisticas_piloto.vitorias}</td>
+                <td style='font-weight:bold; {calculo_diferenca(infos_estatisticas.vitorias, infos_estatisticas_piloto.vitorias, True)["html"]};'>{calculo_diferenca(infos_estatisticas.vitorias, infos_estatisticas_piloto.vitorias, True)["diferenca"]}</td>
+            </tr>
+            <tr>
+                <td style='font-weight:bold;'>Pódios</td>
+                <td style='font-weight:bold;'>{infos_estatisticas.podios}</td>
+                <td style='font-weight:bold;'>{infos_estatisticas_piloto.podios}</td>
+                <td style='font-weight:bold; {calculo_diferenca(infos_estatisticas.podios, infos_estatisticas_piloto.podios, True)["html"]};'>{calculo_diferenca(infos_estatisticas.podios, infos_estatisticas_piloto.podios, True)["diferenca"]}</td>
+            </tr>
+            <tr>
+                <td style='font-weight:bold;'>Pole Positions</td>
+                <td style='font-weight:bold;'>{infos_estatisticas.pole_positions}</td>
+                <td style='font-weight:bold;'>{infos_estatisticas_piloto.pole_positions}</td>
+                <td style='font-weight:bold; {calculo_diferenca(infos_estatisticas.pole_positions, infos_estatisticas_piloto.pole_positions, True)["html"]};'>{calculo_diferenca(infos_estatisticas.pole_positions, infos_estatisticas_piloto.pole_positions, True)["diferenca"]}</td>
+            </tr>
+            <tr>
+                <td style='font-weight:bold;'>Média de Largada</td>
+                <td style='font-weight:bold;'>{infos_estatisticas.media_largada}</td>
+                <td style='font-weight:bold;'>{infos_estatisticas_piloto.media_largada}</td>
+                <td style='font-weight:bold; {calculo_diferenca(infos_estatisticas.media_largada, infos_estatisticas_piloto.media_largada, False)["html"]};'>{calculo_diferenca(infos_estatisticas.media_largada, infos_estatisticas_piloto.media_largada, False)["diferenca"]}</td>
+            </tr>
+            <tr>
+                <td style='font-weight:bold;'>Abandonos</td>
+                <td style='font-weight:bold;'>{infos_estatisticas.abandonos}</td>
+                <td style='font-weight:bold;'>{infos_estatisticas_piloto.abandonos}</td>
+                <td style='font-weight:bold; {calculo_diferenca(infos_estatisticas.abandonos, infos_estatisticas_piloto.abandonos, False)["html"]};'>{calculo_diferenca(infos_estatisticas.abandonos, infos_estatisticas_piloto.abandonos, False)["diferenca"]}</td>
+            </tr>
+            """
+
+            tabela_html = f"""
+                <style>
+                    .f1-table {{
+                        width: 100%;
+                        border-collapse: collapse;
+                        font-family: sans-serif;
+                        font-size: 12px;
+                    }}
+                    .f1-table td {{
+                        padding: 3px 15px;
+                        border-bottom: 1px solid #2a2a2a;
+                        color: #e0e0e0;
+                    }}
+                    .f1-table tr:hover td {{
+                        background-color: #1e1e1e;
+                    }}
+                    .f1-table td:first-child {{
+                        color: #888;
+                        white-space: nowrap;
+                    }}
+                    .f1-table td:last-child {{
+                        color: #ffffff;
+                        font-weight: 500;
+                    }}
+                </style>
+                <table class="f1-table">
+                    {linhas_html}
+                </table>
+            """           
+            st.html(tabela_html)
+
 
     container = st.container(border=True, height=325) 
     with container:

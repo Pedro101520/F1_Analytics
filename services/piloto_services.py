@@ -41,5 +41,13 @@ def lista_id():
     conteudo = blob.download_as_text()
     dados = json.loads(conteudo)
     
-    return list(dados.keys())
+    lista_id_piloto = list(dados.keys())
+    nome_pilotos = []
+    for i in lista_id_piloto:
+        nome_pilotos.append(f"{dados[i]["nome"]} {dados[i]["sobrenome"]}")
+    
+    return {
+        "ids": lista_id_piloto,
+        "nomes": nome_pilotos
+    }
 

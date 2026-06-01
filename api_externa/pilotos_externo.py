@@ -146,7 +146,8 @@ def pontos_posicao():
                 "round": j["round"],
                 "ponto_por_corrida": j["Results"][0]["points"],
                 "posicao": j["Results"][0]["positionText"],
-                "pontos_sprint": dicionario_sprint.get(j["round"], "0")
+                "pontos_sprint": dicionario_sprint.get(j["round"], "0"),
+                "id_gp": j["raceName"]
             })
     return posicao_valor
 info_por_corrida = pontos_posicao()
@@ -163,7 +164,8 @@ for i in info_por_corrida:
         "round": i["round"],
         "ponto_por_corrida": i["ponto_por_corrida"],
         "posicao": i["posicao"],
-        "pontos_por_sprint": i["pontos_sprint"]
+        "pontos_por_sprint": i["pontos_sprint"],
+        "id_gp": i["id_gp"]
     })
 
 def estatisticas():
@@ -176,7 +178,7 @@ def estatisticas():
         for j in aceso_info:
             aniversario = datetime.strptime(j["Results"][0]["Driver"]["dateOfBirth"], "%Y-%m-%d").date()
             idade = hoje.year - aniversario.year
-            if hoje.month <= aniversario.month and hoje.day <= aniversario.day:
+            if (hoje.month < aniversario.month) or (hoje.month == aniversario.month and aniversario.day >= hoje.day):
                 idade -= 1
 
             if i not in infos_pilotos:
