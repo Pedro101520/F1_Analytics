@@ -1,6 +1,7 @@
 import streamlit as st
 import plotly.graph_objects as go
 from utils.acesso_corrida import corrida
+from utils.acesso_circuito import circuito
 
 from services.piloto_services import estatisticas_piloto, lista_id
 
@@ -422,14 +423,63 @@ def info_pilotos():
 
     container = st.container(border=True, height=325) 
     with container:
-        st.markdown(
-            f"""
-            <div class='metric-card'>
-                <div>
-                    <p style='margin:0; font-size:20px; font-weight:bold;'>Líder do Campeonato:</p>
-                    <p style='margin:4px 0 0 0; font-size:26px; font-weight:bold;'></p>
-                </div>
-                <p style='margin:0; font-size:16px; color:gray; margin-bottom: 25px;'>pontos</p>
-            </div>
-            """, unsafe_allow_html=True
-        )
+        html = """
+            <tr>
+                <td style='font-weight:bold;'>#</td>
+                <td style='font-weight:bold;'>GP</td>
+                <td style='font-weight:bold;'>Data</td>
+                <td style='font-weight:bold;'>Circuito</td>
+                <td style='font-weight:bold;'>Grid</td>
+                <td style='font-weight:bold;'>Resultado</td>
+                <td style='font-weight:bold;'>Pontos</td>
+                <td style='font-weight:bold;'>Voltas</td>
+                <td style='font-weight:bold;'>Status</td>
+                <td style='font-weight:bold;'>Melhor Volta</td>
+            </tr>
+        """
+        for i in infos_estatisticas.pontuacao_individual:
+            html += f"""
+                <tr>
+                    <td>{i["round"]}</td>
+                    <td>{corrida()[i["id_gp"]]}</td>
+                    <td>{i["data"]}</td>
+                    <td>{circuito()[i["id_gp"]][1]}</td>
+                    <td>{i["grid"]}</td>
+                    <td>{i["posicao"]}</td>
+                    <td>{int(i["ponto_por_corrida"]) + int(i["pontos_por_sprint"])}</td>
+                    <td>{i["voltas"]}</td>
+                    <td>{i["status"]}</td>
+                    <td>{i["volta_mais_rapida"]}</td>
+                </tr>
+            """
+
+        tabela_html_status = f"""
+            <style>
+                .f1-table-piloto {{
+                    width: 100%;
+                    border-collapse: collapse;
+                    font-family: sans-serif;
+                    font-size: 14px;
+                }}
+                .f1-table-piloto td {{
+                    padding: 8px 12px;
+                    border-bottom: 1px solid #2a2a2a;
+                    color: #e0e0e0;
+                }}
+                .f1-table-piloto tr:hover td {{
+                    background-color: #1e1e1e;
+                }}
+                .f1-table-piloto td:first-child {{
+                    color: #888;
+                    white-space: nowrap;
+                }}
+                .f1-table-piloto td:last-child {{
+                    color: #ffffff;
+                    font-weight: 500;
+                }}
+            </style>
+            <table class="f1-table-piloto">
+                {html}
+            </table>
+        """          
+        st.html(tabela_html_status)

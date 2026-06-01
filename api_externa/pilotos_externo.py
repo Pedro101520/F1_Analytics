@@ -62,11 +62,18 @@ def pole_position():
     time.sleep(60)
     pole = {}
     for i in nome_id["id"]:
-        acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/drivers/{i}/qualifying/1/").json()
+        acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/drivers/{i}/results/").json()
         if i not in pole:
             pole[i] = {
-                "qtde_pole_position": acesso["MRData"]["total"]
+                "qtde_pole_position": 0
             }
+        
+        acesso_info = acesso["MRData"]["RaceTable"]["Races"]
+
+        for j in acesso_info:
+            valor = int(j["Results"][0].get("grid", 0))
+            if valor == 1:
+                pole[i]["qtde_pole_position"] += 1
 
     return pole
 pole = pole_position()
@@ -147,7 +154,13 @@ def pontos_posicao():
                 "ponto_por_corrida": j["Results"][0]["points"],
                 "posicao": j["Results"][0]["positionText"],
                 "pontos_sprint": dicionario_sprint.get(j["round"], "0"),
-                "id_gp": j["raceName"]
+                "id_gp": j["raceName"],
+                "data": j["date"],
+                "circuito": j["Circuit"]["circuitId"],
+                "grid": j["Results"][0]["grid"],
+                "voltas": j["Results"][0]["laps"],
+                "status": j["Results"][0]["status"],
+                "volta_mais_rapida": j["Results"][0].get("FastestLap", {}).get("Time", {}).get("time", "")
             })
     return posicao_valor
 info_por_corrida = pontos_posicao()
@@ -165,7 +178,13 @@ for i in info_por_corrida:
         "ponto_por_corrida": i["ponto_por_corrida"],
         "posicao": i["posicao"],
         "pontos_por_sprint": i["pontos_sprint"],
-        "id_gp": i["id_gp"]
+        "id_gp": i["id_gp"],
+        "data": i["data"],
+        "circuito": i["circuito"],
+        "grid": i["grid"],
+        "voltas": i["voltas"],
+        "status": i["status"],
+        "volta_mais_rapida": i["volta_mais_rapida"]
     })
 
 def estatisticas():
