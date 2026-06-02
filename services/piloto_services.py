@@ -4,12 +4,14 @@ from datetime import datetime
 from models.piloto_models import Lider, Estatisticas
 from services.calendario_service import rodadas
 from google.cloud import storage
+from dotenv import load_dotenv
 import json
 import os
 
 ano_atual = datetime.now().year
 infos_rodada = rodadas()
 total_rodadas = infos_rodada.total_rodadas
+load_dotenv()
 
 @st.cache_data
 def piloto_lider():
@@ -19,8 +21,6 @@ def piloto_lider():
 
 @st.cache_data
 def estatisticas_piloto(id_piloto):
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "clever-axe-457319-g8-833d2d4ab67f.json"
-
     client = storage.Client()
     bucket = client.bucket("f1-dashboard-pilotos")
     blob = bucket.blob("f1_pilotos.json")
@@ -32,8 +32,6 @@ def estatisticas_piloto(id_piloto):
 
 @st.cache_data
 def lista_id():
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "clever-axe-457319-g8-833d2d4ab67f.json"
-
     client = storage.Client()
     bucket = client.bucket("f1-dashboard-pilotos")
     blob = bucket.blob("f1_pilotos.json")

@@ -4,6 +4,7 @@ from datetime import datetime
 
 from paginas.inicio import pagina_inicial
 from paginas.pilotos import info_pilotos
+from paginas.equipes import info_equipes
 
 # valor = requests.get("https://api.jolpi.ca/ergast/f1/2024/driverstandings/").json()
 # print(valor)
@@ -46,3 +47,5 @@ if st.session_state.page == "inicio":
     pagina_inicial()
 elif st.session_state.page == "pilotos":
     info_pilotos()
+elif st.session_state.page == "equipes":
+    info_equipes()
