@@ -6,6 +6,7 @@ from services.clima_service import clima
 from utils.scraping.noticias import noticiaF1
 from utils.acesso_circuito import circuito
 from utils.acesso_corrida import corrida
+import os
 
 infos_rodada = rodadas()
 infos_lider = piloto_lider()
@@ -215,7 +216,9 @@ def pagina_inicial():
 
                 with img_col:
                     try:
-                        with open(f"assets/pistas/{circuito()[circuitoId][1]}.png", "rb") as f:
+                        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+                        caminho = os.path.join(BASE_DIR, "..", "assets", "pistas", f"{circuito()[circuitoId][1]}.png")
+                        with open(caminho, "rb") as f:
                             img_b64 = base64.b64encode(f.read()).decode()
                         st.markdown(
                             f"""

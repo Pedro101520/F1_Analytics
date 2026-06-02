@@ -1,5 +1,6 @@
 from datetime import datetime
 import json
+import os
 
 class Calendario:
     def __init__(self, total_rodadas, rodada_atual, prox_corrida_calendario):
@@ -10,7 +11,9 @@ class Calendario:
         data_hoje = datetime.now().date()
         data = datetime.strptime(rodada_atual["date"], "%Y-%m-%d").date()
 
-        with open("assets\corrida.json", "r", encoding="utf-8") as arquivo:
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        caminho = os.path.join(BASE_DIR, "..", "assets", "corrida.json")
+        with open(caminho, "r", encoding="utf-8") as arquivo:
             dados = json.load(arquivo)
 
         # Data sem formatação
