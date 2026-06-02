@@ -1,0 +1,52 @@
+{
+    "alpine": {
+        "sede": "Enstone, Reino Unido",
+        "proprietario": "Grupo Renault",
+        "estreia": "GP do Barém de 2021"
+    },
+    "aston_martin": {
+        "sede": "Silverstone, Reino Unido",
+        "proprietario": "Lawrence Stroll",
+        "estreia": "GP dos Países Baixos de 1959"
+    },
+    "audi": {
+        "sede": "Hinwil, Suíça",
+        "proprietario": "Audi AG",
+        "estreia": "GP da África do Sul de 1993"
+    },
+    "ferrari": {
+        "sede": "Maranello, Itália",
+        "proprietario": "Ferrari N.V.",
+        "estreia": "GP de Mônaco de 1950"
+    },
+    "haas": {
+        "sede": "Kannapolis, Estados Unidos",
+        "proprietario": "Gene Haas",
+        "estreia": "GP da Austrália de 2016"
+    },
+    "mclaren": {
+        "sede": "Woking, Reino Unido",
+        "proprietario": "Mumtalakat Holding Company",
+        "estreia": "GP de Mônaco de 1966"
+    },
+    "mercedes": {
+        "sede": "Brackley, Reino Unido",
+        "proprietario": "Mercedes-Benz Group",
+        "estreia": "GP da França de 1954"
+    },
+    "racing_bulls": {
+        "sede": "Faenza, Itália",
+        "proprietario": "Red Bull GmbH",
+        "estreia": "GP da Austrália de 1985"
+    },
+    "red_bull": {
+        "sede": "Milton Keynes, Reino Unido",
+        "proprietario": "Red Bull GmbH",
+        "estreia": "GP da Austrália de 2005"
+    },
+    "williams": {
+        "sede": "Grove, Reino Unido",
+        "proprietario": "Dorilton Capital",
+        "estreia": "GP da Espanha de 1978"
+    }
+}
