@@ -4,6 +4,7 @@ from datetime import datetime
 from models.piloto_models import Lider, Estatisticas
 from services.calendario_service import rodadas
 from google.cloud import storage
+from google.oauth2 import service_account
 from dotenv import load_dotenv
 import json
 import os
@@ -13,6 +14,16 @@ infos_rodada = rodadas()
 total_rodadas = infos_rodada.total_rodadas
 load_dotenv()
 
+def get_storage_client():
+    if os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
+        return storage.Client()
+    
+    credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"])
+    return storage.Client(
+        credentials=credentials,
+        project=credentials.project_id
+    )
+
 @st.cache_data
 def piloto_lider():
     piloto = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/driverstandings/").json()
@@ -21,7 +32,7 @@ def piloto_lider():
 
 @st.cache_data
 def estatisticas_piloto(id_piloto):
-    client = storage.Client()
+    client = get_storage_client()
     bucket = client.bucket("f1-dashboard-pilotos")
     blob = bucket.blob("f1_pilotos.json")
 
@@ -32,7 +43,7 @@ def estatisticas_piloto(id_piloto):
 
 @st.cache_data
 def lista_id():
-    client = storage.Client()
+    client = get_storage_client()
     bucket = client.bucket("f1-dashboard-pilotos")
     blob = bucket.blob("f1_pilotos.json")
 
