@@ -19,8 +19,38 @@ def get_storage_client():
         project=credentials.project_id
     )
 
+def posicao_rodada():
+    verifica = True
+    i = 1
+    pontos_rodada = {}
+    while verifica:
+        infos = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/{i}/constructorstandings/").json()
+        circuito = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/{i}/races/").json()
+        if len(infos["MRData"]["StandingsTable"]["StandingsLists"]) > 0:
+            i += 1
+            StandingsLists = infos["MRData"]["StandingsTable"]["StandingsLists"][0]
+            ConstructorStandings = StandingsLists["ConstructorStandings"]
+            for j in ConstructorStandings:
+                id_construtor = j["Constructor"]["constructorId"]
+                if id_construtor not in pontos_rodada:
+                    pontos_rodada[id_construtor] = {
+                        "corrida": []
+                    }
+                pontos_rodada[id_construtor]["corrida"].append({
+                    "rodada": infos["MRData"]["StandingsTable"]["round"],
+                    "pontos": j["points"],
+                    "posicao": j["positionText"],
+                    "id_circuito": circuito["MRData"]["RaceTable"]["Races"][0]["raceName"]
+                })
+        else:
+            break
+    return pontos_rodada
+
+info_individual = posicao_rodada()
+
 def info_equipes():
     equipes = {}
+    posicao = {}
     infos = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/constructors/").json()
     for i in infos["MRData"]["ConstructorTable"]["Constructors"]:
         equipe_individual = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/constructors/{i["constructorId"]}/constructorstandings/").json()
@@ -37,7 +67,8 @@ def info_equipes():
                 "pontos": valor["points"],
                 "vitorias": valor["wins"],
                 "nacionalidade": valor["Constructor"]["nationality"],
-                "piloto_id": []
+                "piloto_id": [],
+                "info_individual_rodada": info_individual[i["constructorId"]]
             }
         
         lists_equipe_piloto = id_piloto["MRData"]["DriverTable"]["Drivers"]

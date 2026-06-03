@@ -12,7 +12,7 @@
     "audi": {
         "sede": "Hinwil, Suíça",
         "proprietario": "Audi AG",
-        "estreia": "GP da África do Sul de 1993"
+        "estreia": "GP da Austrália de 2026"
     },
     "ferrari": {
         "sede": "Maranello, Itália",
@@ -37,7 +37,7 @@
     "racing_bulls": {
         "sede": "Faenza, Itália",
         "proprietario": "Red Bull GmbH",
-        "estreia": "GP da Austrália de 1985"
+        "estreia": "GP do Barém de 2006"
     },
     "red_bull": {
         "sede": "Milton Keynes, Reino Unido",
@@ -48,5 +48,10 @@
         "sede": "Grove, Reino Unido",
         "proprietario": "Dorilton Capital",
         "estreia": "GP da Espanha de 1978"
+    },
+    "cadillac": {
+        "sede": "Fishers, Indiana - EUA",
+        "proprietario": "General Motors (GM)",
+        "estreia": "GP da Austrália de 2026"
     }
 }

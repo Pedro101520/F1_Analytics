@@ -96,7 +96,7 @@ def media_posicao():
                 grid += grid_posicao
                 total_valido += 1
         
-        if total_valido  > 0:
+        if total_valido > 0:
             media[i]["media"] = str(grid / total_valido)
 
     return media
