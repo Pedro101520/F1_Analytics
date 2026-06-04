@@ -50,7 +50,6 @@ info_individual = posicao_rodada()
 
 def info_equipes():
     equipes = {}
-    posicao = {}
     infos = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/constructors/").json()
     for i in infos["MRData"]["ConstructorTable"]["Constructors"]:
         equipe_individual = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/constructors/{i["constructorId"]}/constructorstandings/").json()

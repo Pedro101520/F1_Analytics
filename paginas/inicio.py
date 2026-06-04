@@ -7,6 +7,7 @@ from utils.scraping.noticias import noticiaF1
 from utils.acesso_circuito import circuito
 from utils.acesso_corrida import corrida
 import os
+import base64
 
 infos_rodada = rodadas()
 infos_lider = piloto_lider()
@@ -212,8 +213,6 @@ def pagina_inicial():
                     unsafe_allow_html=True
                 )          
             with img_col:
-                import base64
-
                 with img_col:
                     try:
                         BASE_DIR = os.path.dirname(os.path.abspath(__file__))

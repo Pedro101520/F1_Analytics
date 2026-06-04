@@ -219,6 +219,7 @@ def estatisticas():
                     "qtde_mundial": qtde_mundial[i]["qtde_mundial"],
                     "melhor_resultado": int(j["Results"][0]["position"]),
                     "abandonos": 0,
+                    "id_piloto": j["Results"][0]["Driver"]["driverId"],
                     "pontuacao_individual": info_agrupada[i]["corridas"]
                 }
 

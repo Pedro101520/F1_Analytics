@@ -1,10 +1,13 @@
 import streamlit as st
 import plotly.graph_objects as go
+from datetime import datetime
 
 from services.equipes_service import lista_id_equipe, estatisticas_equipe
 from services.piloto_services import estatisticas_piloto
 from utils.acesso_equipes import leitura_equipe
 from utils.acesso_corrida import corrida
+
+ano_atual = datetime.now().year
 
 def info_pilotos(infos_estatisticas):
     lista_pilotos = []
@@ -437,3 +440,111 @@ def info_equipes():
                 </table>
             """           
             st.html(tabela_html)
+    
+    container = st.container(border=True, height=325) 
+    with container:
+        from services.calendario_service import rodadas
+
+        infos_rodada = rodadas()
+        total_rodadas = infos_rodada.round
+
+        num_titular = int(total_rodadas)*0.4
+
+        info_duelo = []
+        for i in infos_estatisticas.piloto_id:
+            duelo = estatisticas_piloto(i)
+            qtde_duelo = duelo.pontuacao_individual
+            if len(qtde_duelo) > num_titular:
+                info_duelo.append({
+                    "nome": f"{duelo.nome} {duelo.sobrenome}",
+                    "pontos": duelo.pontos,
+                    "numero": duelo.numero,
+                    "podios": duelo.podios,
+                    "melhor_resultado": duelo.melhor_resultado,
+                    "media_grid": duelo.media_largada,
+                    "abandonos": duelo.abandonos,
+                    "pole_position": duelo.pole_positions,
+                    "pontos_medios": float(duelo.pontos) / total_rodadas
+                })
+
+        st.markdown(
+        f"""
+            <div class='metric-card'>
+                <p style='margin:0; font-size:16px; margin-bottom: 15px; text-align:left; color:gray'>Duelo interno - {ano_atual}</p>
+            </div>
+        """, unsafe_allow_html=True
+        )
+        col1, col2, col3 = st.columns(3) 
+        with col1:
+            st.markdown(
+            f"""
+                <div class='metric-card'>
+                    <p style='margin:0; font-size:16px; margin-bottom: 5px; text-align:left; font-weight:bold; color:#990012;'>Nº {info_duelo[0]["numero"]}</p>
+                    <p style='margin:0; font-size:20px; margin-bottom: 5px; text-align:left; font-weight:bold; color:#990012;'>N {info_duelo[0]["nome"]}</p>
+                    <p style='margin:0; font-size:25px; margin-bottom: 5px; text-align:left; font-weight:bold; color:#990012;'>{info_duelo[0]["pontos"]} pts</p>
+                    <p style='margin:0; font-size:16px; margin-bottom: 5px; text-align:left; color:gray'>{((int(info_duelo[0]["pontos"])/int(infos_estatisticas.pontos)) * 100):.1f}% da equipe</p>
+                </div>
+            """, unsafe_allow_html=True
+            )
+        with col2:
+            st.html(f"""
+                <div style='display:flex; justify-content:center; align-items:center; height:100%;'>
+                    <span style='font-size: 30px; padding: 4px 12px; border-radius: 999px; border: 1px solid #e0e0e0; color: #888; font-weight: bold; text-align: center'>
+                        vs
+                    </span>
+                </div>
+            """)
+        with col3:
+            st.markdown(
+            f"""
+                <div class='metric-card'>
+                    <p style='margin:0; font-size:16px; margin-bottom: 5px; text-align:right; font-weight:bold;'>Nº {info_duelo[1]["numero"]}</p>
+                    <p style='margin:0; font-size:20px; margin-bottom: 5px; text-align:right; font-weight:bold;'>{info_duelo[1]["nome"]}</p>
+                    <p style='margin:0; font-size:25px; margin-bottom: 5px; text-align:right; font-weight:bold;'>{info_duelo[1]["pontos"]} pts</p>
+                    <p style='margin:0; font-size:16px; margin-bottom: 5px; text-align:right; color:gray'>{((int(info_duelo[1]["pontos"])/int(infos_estatisticas.pontos)) * 100):.1f}% da equipe</p>
+                </div>
+            """, unsafe_allow_html=True
+            )
+
+        st.html("<hr style='margin: 0; opacity: 0.2;'>")
+
+        st.html(
+            f"""
+            <div style='padding: 2px 0 15px; gap: 10px'>
+                <div style='display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin-top: 10px'>
+                    <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
+                        <p style='margin: 0; font-size: 16px; color: #888; text-align: center'>PÓDIOS</p>
+                            <div style='display: flex; align-items: center; justify-content: space-between'>
+                                <span style='font-size: 18px; font-weight: 700; color:#990012;'>{info_duelo[0]["podios"]}</span>
+                                <span style='color: #444; font-size: 14px'>×</span>
+                                <span style='font-size: 18px; font-weight: 700;'>{info_duelo[1]["podios"]}</span>
+                            </div>
+                    </div>
+                    <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
+                        <p style='margin: 0; font-size: 16px; color: #888; text-align: center'>MELHOR RESULTADO</p>
+                            <div style='display: flex; align-items: center; justify-content: space-between'>
+                                <span style='font-size: 18px; font-weight: 700; color:#990012;'>{info_duelo[0]["melhor_resultado"]}</span>
+                                <span style='color: #444; font-size: 14px'>×</span>
+                                <span style='font-size: 18px; font-weight: 700;'>{info_duelo[1]["melhor_resultado"]}</span>
+                            </div>
+                    </div>
+                    <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
+                        <p style='margin: 0; font-size: 16px; color: #888; text-align: center'>MÉDIA DE LARGADA</p>
+                            <div style='display: flex; align-items: center; justify-content: space-between'>
+                                <span style='font-size: 18px; font-weight: 700; color:#990012;'>{info_duelo[0]["media_grid"]}</span>
+                                <span style='color: #444; font-size: 14px'>×</span>
+                                <span style='font-size: 18px; font-weight: 700;'>{info_duelo[1]["media_grid"]}</span>
+                            </div>
+                    </div>
+                    <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
+                        <p style='margin: 0; font-size: 16px; color: #888; text-align: center'>PTS MÉDIOS/GP</p>
+                            <div style='display: flex; align-items: center; justify-content: space-between'>
+                                <span style='font-size: 18px; font-weight: 700; color:#990012;'>{int(info_duelo[0]["pontos"]) / total_rodadas}</span>
+                                <span style='color: #444; font-size: 14px'>×</span>
+                                <span style='font-size: 18px; font-weight: 700;'>{int(info_duelo[1]["pontos"]) / total_rodadas}</span>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            """
+        )
