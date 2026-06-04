@@ -295,7 +295,7 @@ def info_equipes():
 
             fig.update_layout(
                 height=280,
-                title="Evolução do Piloto na Temporada",
+                title="Evolução da Equipe na Temporada",
                 hovermode="x unified",
                 plot_bgcolor="rgba(0,0,0,0)",
                 paper_bgcolor="rgba(0,0,0,0)",

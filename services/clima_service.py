@@ -11,7 +11,7 @@ def clima():
     latitute = (infos_rodada.lat)
     longetude = infos_rodada.long
 
-    consulta = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={latitute}&longitude={longetude}&daily=temperature_2m_max,precipitation_probability_max,wind_speed_10m_max,relative_humidity_2m_mean,weather_code,uv_index_max&forecast_days=16&timezone=auto").json()
+    consulta = requests.get(f"https://api.open-meteo.com/v1/forecast?latitude={latitute}&longitude={longetude}&daily=temperature_2m_max,precipitation_probability_max,wind_speed_10m_max,relative_humidity_2m_mean,weather_code,uv_index_max&forecast_days=16&timezone=auto", timeout=5).json()
 
     acesso = consulta["daily"]["time"]
 

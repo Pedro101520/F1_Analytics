@@ -272,7 +272,7 @@ def info_pilotos():
 
             fig.update_layout(
                 height=280,
-                title="Evolução do Piloto na Temporada",
+                title="Desempenho por Corrida",
                 hovermode="x unified",
                 plot_bgcolor="rgba(0,0,0,0)",
                 paper_bgcolor="rgba(0,0,0,0)",

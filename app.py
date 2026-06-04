@@ -5,6 +5,7 @@ from datetime import datetime
 from paginas.inicio import pagina_inicial
 from paginas.pilotos import info_pilotos
 from paginas.equipes import info_equipes
+from paginas.campeonato import camp
 
 # valor = requests.get("https://api.jolpi.ca/ergast/f1/2024/driverstandings/").json()
 # print(valor)
@@ -37,8 +38,8 @@ with col4:
         st.session_state.page = "equipes"
         st.rerun()
 with col5:
-    if st.button("Predição", use_container_width=True):
-        st.session_state.page = "pred"
+    if st.button("Campeonato", use_container_width=True):
+        st.session_state.page = "camp"
         st.rerun()
 
 
@@ -49,3 +50,5 @@ elif st.session_state.page == "pilotos":
     info_pilotos()
 elif st.session_state.page == "equipes":
     info_equipes()
+elif st.session_state.page == "camp":
+    camp()
