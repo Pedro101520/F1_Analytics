@@ -37,7 +37,10 @@ def info_pilotos(infos_estatisticas):
         pilotos["abandonos"] += i.abandonos
 
         soma += float(i.media_largada)
-    pilotos["media_largada"] = f"{soma/len(lista_pilotos):.1f}"
+    try:
+        pilotos["media_largada"] = f"{soma/len(lista_pilotos):.1f}"
+    except ZeroDivisionError:
+        pilotos["media_largada"] = 0
 
     return pilotos
 
