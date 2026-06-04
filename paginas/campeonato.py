@@ -3,9 +3,6 @@ import plotly.graph_objects as go
 
 from services.campeonato_service import info_campeonato
 
-if "dados" not in st.session_state:
-    st.session_state.dados = "pilotos"
-
 info_camp = info_campeonato()
 
 def info_exibe():

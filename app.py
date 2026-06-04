@@ -10,6 +10,9 @@ from paginas.campeonato import camp
 # valor = requests.get("https://api.jolpi.ca/ergast/f1/2024/driverstandings/").json()
 # print(valor)
 
+if "dados" not in st.session_state:
+    st.session_state.dados = "pilotos"
+
 def wide_mode():
     st.set_page_config(layout="wide")
 wide_mode()
