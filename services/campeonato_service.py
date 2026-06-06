@@ -23,7 +23,7 @@ def get_storage_client():
         project=credentials.project_id
     )
 
-@st.cache_data
+@st.cache_data(ttl="1h")
 def info_campeonato():
     client = get_storage_client()
     bucket = client.bucket("f1-dashboard-pilotos")

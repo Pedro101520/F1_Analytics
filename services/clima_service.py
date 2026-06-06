@@ -6,7 +6,7 @@ from services.calendario_service import rodadas
 
 infos_rodada = rodadas()
 
-@st.cache_data
+@st.cache_data(ttl="1h")
 def clima():
     latitute = (infos_rodada.lat)
     longetude = infos_rodada.long

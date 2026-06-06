@@ -17,7 +17,7 @@ headers = {
 response = requests.get(url, headers=headers)
 parsed_html = BeautifulSoup(response.text, "html.parser")
 
-@st.cache_data
+@st.cache_data(ttl="1h")
 def noticiaF1():
     lista_titulos = []
     titulos = parsed_html.find_all('div', attrs={'class': 'ms-item__info'})

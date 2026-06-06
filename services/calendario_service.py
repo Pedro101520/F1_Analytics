@@ -4,7 +4,7 @@ import streamlit as st
 from datetime import datetime
 from models.calendario_model import Calendario
 
-@st.cache_data
+@st.cache_data(ttl="1h")
 def rodadas():
     ano_atual = datetime.now().year
     calendario = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}.json").json()
