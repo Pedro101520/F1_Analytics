@@ -239,9 +239,10 @@ def pagina_inicial():
                     <td style='color:#990012; font-weight:bold;'>{proximas_corridas["datas"][0]}</td>
                     <td style='color:#990012; font-weight:bold;'>{circuito()[proximas_corridas["premio"][0]][0]}</td>
                     <td style='color:#990012; font-weight:bold;'>{corrida()[proximas_corridas["premio"][0]]}</td>
+                    <td style='color:#990012; font-weight:bold;'>{proximas_corridas["cidade"][0]}</td>
                 </tr>
             """
-            for data, premio in zip(proximas_corridas["datas"][1:], proximas_corridas["premio"][1:]):
+            for data, premio, cidade in zip(proximas_corridas["datas"][1:], proximas_corridas["premio"][1:], proximas_corridas["cidade"][1:]):
                 pais_nome = circuito()[premio][0]
                 corrida_nome = corrida()[premio]
                 linhas_html += f"""
@@ -249,6 +250,7 @@ def pagina_inicial():
                         <td>{data}</td>
                         <td>{pais_nome}</td>
                         <td>{corrida_nome}</td>
+                        <td>{cidade}</td>
                     </tr>
                 """
 

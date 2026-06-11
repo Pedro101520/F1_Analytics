@@ -24,13 +24,13 @@ def get_storage_client():
         project=credentials.project_id
     )
 
-@st.cache_data(ttl="1h")
+@st.cache_data(ttl=3600)
 def piloto_lider():
     piloto = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/driverstandings/").json()
     acesso = piloto["MRData"]["StandingsTable"]["StandingsLists"][0]["DriverStandings"]
     return Lider(acesso[0])
 
-@st.cache_data(ttl="1h")
+@st.cache_data(ttl=3600)
 def estatisticas_piloto(id_piloto):
     client = get_storage_client()
     bucket = client.bucket("f1-dashboard-pilotos")
@@ -41,7 +41,7 @@ def estatisticas_piloto(id_piloto):
     
     return Estatisticas(**dados[id_piloto])
 
-@st.cache_data(ttl="1h")
+@st.cache_data(ttl=3600)
 def lista_id():
     client = get_storage_client()
     bucket = client.bucket("f1-dashboard-pilotos")

@@ -18,7 +18,7 @@ def get_storage_client():
         project=credentials.project_id
     )
 
-@st.cache_data(ttl="1h")
+@st.cache_data(ttl=3600)
 def estatisticas_equipe(id_equipe):
     client = get_storage_client()
     bucket = client.bucket("f1-dashboard-pilotos")
@@ -29,7 +29,7 @@ def estatisticas_equipe(id_equipe):
     
     return Equipes(**dados[id_equipe])
 
-@st.cache_data(ttl="1h")
+@st.cache_data(ttl=3600)
 def lista_id_equipe():
     client = get_storage_client()
     bucket = client.bucket("f1-dashboard-pilotos")
