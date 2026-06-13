@@ -544,7 +544,7 @@ def info_equipes():
                             <div style='display: flex; align-items: center; justify-content: space-between'>
                                 <span style='font-size: 18px; font-weight: 700; color:#990012;'>{int(info_duelo[0]["pontos"]) / total_rodadas}</span>
                                 <span style='color: #444; font-size: 14px'>×</span>
-                                <span style='font-size: 18px; font-weight: 700;'>{int(info_duelo[1]["pontos"]) / total_rodadas}</span>
+                                <span style='font-size: 18px; font-weight: 700;'>{int(info_duelo[1]["pontos"]) / total_rodadas:.2f}</span>
                             </div>
                     </div>
                 </div>

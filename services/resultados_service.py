@@ -6,7 +6,7 @@ from datetime import datetime
 
 rodada_atual = rodadas()
 
-@st.cache_data(ttl=3600)
+@st.cache_resource(ttl=3600)
 def resultados_corrida():
     ano_atual = datetime.now().year
     piloto = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/{rodada_atual.round}/results/").json()
