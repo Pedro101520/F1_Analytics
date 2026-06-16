@@ -534,9 +534,9 @@ def info_equipes():
                     <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
                         <p style='margin: 0; font-size: 16px; color: #888; text-align: center'>MÉDIA DE LARGADA</p>
                             <div style='display: flex; align-items: center; justify-content: space-between'>
-                                <span style='font-size: 18px; font-weight: 700; color:#990012;'>{info_duelo[0]["media_grid"]}</span>
+                                <span style='font-size: 18px; font-weight: 700; color:#990012;'>{round(float(info_duelo[0]["media_grid"]), 2)}</span>
                                 <span style='color: #444; font-size: 14px'>×</span>
-                                <span style='font-size: 18px; font-weight: 700;'>{info_duelo[1]["media_grid"]}</span>
+                                <span style='font-size: 18px; font-weight: 700;'>{round(float(info_duelo[1]["media_grid"]), 2)}</span>
                             </div>
                     </div>
                     <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>

@@ -5,11 +5,12 @@ import os
 class Calendario:
     def __init__(self, total_rodadas, rodada_atual, prox_corrida_calendario):
         self.total_rodadas = total_rodadas
-        self.round = int(rodada_atual["round"]) - 1
+        self.round = int(rodada_atual["round"])
+        print(self.round)
 
 
         data_hoje = datetime.now().date()
-        data = datetime.strptime(rodada_atual["date"], "%Y-%m-%d").date()
+        data = datetime.strptime(prox_corrida_calendario["datas"][0], "%Y-%m-%d").date()
 
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
         caminho = os.path.join(BASE_DIR, "..", "assets", "corrida.json")
@@ -23,17 +24,17 @@ class Calendario:
         
         self.prox_corrida = (data - data_hoje).days
 
-        self.circuit_id = rodada_atual["raceName"]
+        self.circuit_id = prox_corrida_calendario["premio"][0]
 
         try:
-            circuito_traduzido = dados[rodada_atual["raceName"]]
+            circuito_traduzido = dados[prox_corrida_calendario["premio"][0]]
         except:
-            circuito_traduzido = rodada_atual["raceName"]
+            circuito_traduzido = prox_corrida_calendario["premio"][0]
 
         self.circuito = circuito_traduzido
-        self.localidade = rodada_atual["Circuit"]["Location"]["locality"]
+        self.localidade = prox_corrida_calendario["cidade"][0]
 
-        self.lat = rodada_atual["Circuit"]["Location"]["lat"]
-        self.long = rodada_atual["Circuit"]["Location"]["long"]
+        self.lat = prox_corrida_calendario["lat"][0]
+        self.long = prox_corrida_calendario["long"][0]
 
         self.prox_corrida_calendario = prox_corrida_calendario

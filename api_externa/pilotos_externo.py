@@ -21,7 +21,7 @@ def lista_id():
 nome_id = lista_id()
 
 def inicio_f1():
-    time.sleep(60)
+    time.sleep(20)
     estreia = {}
     for i in nome_id["id"]:
         acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/drivers/{i}/results/?limit=10&offset=0").json()
@@ -32,14 +32,12 @@ def inicio_f1():
                 }
         except:
             if i not in estreia:
-                estreia[i] = {
-                    "ano": 0
-                }
+                continue
     return estreia
 estreia = inicio_f1()
 
 def posicao_campeonato():
-    time.sleep(60)
+    time.sleep(20)
     posicao = {}
     for i in nome_id["id"]:
         acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/drivers/{i}/driverstandings/").json()
@@ -59,7 +57,7 @@ def posicao_campeonato():
 posicao = posicao_campeonato()
 
 def pole_position():
-    time.sleep(60)
+    time.sleep(20)
     pole = {}
     for i in nome_id["id"]:
         acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/drivers/{i}/results/").json()
@@ -79,7 +77,7 @@ def pole_position():
 pole = pole_position()
 
 def media_posicao():
-    time.sleep(60)
+    time.sleep(20)
     media = {}
     for i in nome_id["id"]:
         acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/drivers/{i}/results/").json()
@@ -104,12 +102,15 @@ largada = media_posicao()
 
 
 def calculo_mundial():
-    time.sleep(60)
+    time.sleep(20)
     mundiais = {}
 
     lista_estreia = []
     for i in nome_id["id"]:
-        lista_estreia.append(estreia[i]["ano"])
+        try:
+            lista_estreia.append(estreia[i]["ano"])
+        except:
+            continue
 
     if 0 in lista_estreia:
         lista_estreia.remove(0)
@@ -133,7 +134,7 @@ qtde_mundial = calculo_mundial()
 
 
 def pontos_posicao():
-    time.sleep(60)
+    time.sleep(20)
     posicao_valor = []
     for i in nome_id["id"]:
         acesso = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/drivers/{i}/results/").json()
@@ -188,7 +189,7 @@ for i in info_por_corrida:
     })
 
 def estatisticas():
-    time.sleep(60)
+    time.sleep(20)
     infos_pilotos = {}
 
     for i in nome_id["id"]:
@@ -232,7 +233,7 @@ def estatisticas():
             if infos_pilotos[i]["melhor_resultado"] > int(j["Results"][0]["position"]):
                 infos_pilotos[i]["melhor_resultado"] = int(j["Results"][0]["position"])
             
-            if j["Results"][0]["positionText"] == 'R':
+            if j["Results"][0]["status"] == 'Retired' or j["Results"][0]["status"] == "Did not start":
                 infos_pilotos[i]["abandonos"] += 1
                 
     return infos_pilotos

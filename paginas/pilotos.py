@@ -201,7 +201,7 @@ def info_pilotos():
                     <div class='metric-card'>
                         <p style='margin:0; font-size:16px; color:gray; margin-bottom: 15px; text-align:center;'>Média de Largada</p>
                         <div>
-                            <p style='margin:0; font-size:36px; font-weight:bold; text-align:center;'>{infos_estatisticas.media_largada}</p>
+                            <p style='margin:0; font-size:36px; font-weight:bold; text-align:center;'>{round(float(infos_estatisticas.media_largada), 2)}</p>
                         </div>
                     </div>
                     """, unsafe_allow_html=True
@@ -212,7 +212,7 @@ def info_pilotos():
                 st.markdown(
                     f"""
                     <div class='metric-card'>
-                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 15px; text-align:center;'>Abandonos</p>
+                        <p style='margin:0; font-size:16px; color:gray; margin-bottom: 15px; text-align:center;'>Corridas não concluídas</p>
                         <div>
                             <p style='margin:0; font-size:36px; font-weight:bold; text-align:center;'>{infos_estatisticas.abandonos}</p>
                         </div>
@@ -377,8 +377,8 @@ def info_pilotos():
             </tr>
             <tr>
                 <td style='font-weight:bold;'>Média de Largada</td>
-                <td style='font-weight:bold;'>{infos_estatisticas.media_largada}</td>
-                <td style='font-weight:bold;'>{infos_estatisticas_piloto.media_largada}</td>
+                <td style='font-weight:bold;'>{round(float(infos_estatisticas.media_largada), 2)}</td>
+                <td style='font-weight:bold;'>{round(float(infos_estatisticas_piloto.media_largada), 2)}</td>
                 <td style='font-weight:bold; {calculo_diferenca(infos_estatisticas.media_largada, infos_estatisticas_piloto.media_largada, False)["html"]};'>{calculo_diferenca(infos_estatisticas.media_largada, infos_estatisticas_piloto.media_largada, False)["diferenca"]}</td>
             </tr>
             <tr>

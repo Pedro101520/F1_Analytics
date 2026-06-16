@@ -24,6 +24,8 @@ def rodadas():
     prox_corrida_calendario = []
     prox_grandes_premios = []
     prox_cidade = []
+    lat = []
+    long = []
     for i in acesso:
         data = datetime.strptime(i["date"], "%Y-%m-%d")
 
@@ -31,11 +33,15 @@ def rodadas():
             prox_corrida_calendario.append(i["date"])
             prox_cidade.append(i["Circuit"]["Location"]["locality"])
             prox_grandes_premios.append(i["raceName"])
+            lat.append(i["Circuit"]["Location"]["lat"])
+            long.append(i["Circuit"]["Location"]["long"])
     
     infos_corridas = {
         "datas": prox_corrida_calendario,
         "premio": prox_grandes_premios,
-        "cidade": prox_cidade
+        "cidade": prox_cidade,
+        "lat": lat,
+        "long": long
     }
 
     return Calendario(total_rodadas, rodada_atual, infos_corridas)
