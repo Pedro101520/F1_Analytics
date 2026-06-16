@@ -205,7 +205,7 @@ def camp():
             f"""
             <div class='metric-card'>
                 <div>
-                    <p style='margin:0; font-size:16px; color:gray; margin-bottom: 15px; text-align:left;'>Pódio da Temporada</p>
+                    <p style='margin:0; font-size:16px; margin-bottom: 15px; text-align:left;'>Pódio da Temporada</p>
                 </div>
             </div>
             """, unsafe_allow_html=True
@@ -247,5 +247,31 @@ def camp():
 
     container = st.container(border=True, height=300) 
     with container:
-        st.write("Modelo de Regressão Logistica")
-    
+        col5, col6 = st.columns(2)
+        with col5:
+            st.html(
+                f"""
+                <div style='padding: 4px 0 12px; gap: 30px'>
+                    <div style='display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 40px'>
+                        <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
+                            <p style='margin: 0; font-size: 16px; color: #888;'>Acurácia</p>
+                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>Valor Acurácia</p>
+                        </div>
+                        <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
+                            <p style='margin: 0; font-size: 12px; color: #888;'>F1-Score</p>
+                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>Valor F1-Score</p>
+                        </div>
+                        <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
+                            <p style='margin: 0; font-size: 12px; color: #888;'>Precisão</p>
+                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>Valor Precisão</p>
+                        </div>
+                        <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
+                            <p style='margin: 0; font-size: 12px; color: #888;'>Recall</p>
+                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>Valor Recall</p>
+                        </div>
+                    </div>
+                </div>
+                """
+            )
+        with col6:
+            st.write("kzdjhfvj")
