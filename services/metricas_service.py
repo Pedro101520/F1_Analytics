@@ -1,11 +1,16 @@
 import streamlit as st
-from models.predicao_model import Previsao
+from datetime import datetime
+from models.metricas_model import Modelo_Metricas
+from services.calendario_service import rodadas
 from google.cloud import storage
 from google.oauth2 import service_account
 from dotenv import load_dotenv
 import json
 import os
 
+ano_atual = datetime.now().year
+infos_rodada = rodadas()
+total_rodadas = infos_rodada.total_rodadas
 load_dotenv()
 
 def get_storage_client():
@@ -19,12 +24,15 @@ def get_storage_client():
     )
 
 @st.cache_resource(ttl=3600)
-def info_pred():
+def info_metricas():
     client = get_storage_client()
     bucket = client.bucket("f1-dashboard-pilotos")
-    blob = bucket.blob("previsao.json")
+    blob1 = bucket.blob("metricas_com_quali.json")
+    conteudo = blob1.download_as_text()
+    com_quali = json.loads(conteudo)
 
-    conteudo = blob.download_as_text()
-    dados = json.loads(conteudo)
+    blob2 = bucket.blob("metricas_sem_quali.json")
+    conteudo2 = blob2.download_as_text()
+    sem_quali = json.loads(conteudo2)
     
-    return Previsao(dados)
+    return Modelo_Metricas(com_quali, sem_quali)

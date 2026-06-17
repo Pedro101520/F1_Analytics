@@ -2,8 +2,12 @@ import streamlit as st
 import plotly.graph_objects as go
 
 from services.campeonato_service import info_campeonato
+from services.metricas_service import info_metricas
+from services.predicao_service import info_pred
 
 info_camp = info_campeonato()
+metricas = info_metricas()
+predicao = info_pred()
 
 def info_exibe():
     if st.session_state.dados == "pilotos":
@@ -249,25 +253,36 @@ def camp():
     with container:
         col5, col6 = st.columns(2)
         with col5:
+            if predicao.valores_pred[0]["quali"] == "False":
+                f1_score = metricas.sem_quali["f1-score"]
+                recall = metricas.sem_quali["recall"]
+                presicao = metricas.sem_quali["precision"]
+                acuracia = metricas.sem_quali["accuracy"]
+            else:
+                f1_score = metricas.com_quali["f1-score"]
+                recall = metricas.com_quali["recall"]
+                presicao = metricas.com_quali["precision"]
+                acuracia = metricas.com_quali["accuracy"]
+
             st.html(
                 f"""
                 <div style='padding: 4px 0 12px; gap: 30px'>
                     <div style='display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 40px'>
                         <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
                             <p style='margin: 0; font-size: 16px; color: #888;'>Acurácia</p>
-                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>Valor Acurácia</p>
+                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(acuracia * 100), 2)}</p>
                         </div>
                         <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
                             <p style='margin: 0; font-size: 12px; color: #888;'>F1-Score</p>
-                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>Valor F1-Score</p>
+                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(f1_score * 100), 2)}</p>
                         </div>
                         <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
                             <p style='margin: 0; font-size: 12px; color: #888;'>Precisão</p>
-                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>Valor Precisão</p>
+                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(presicao * 100), 2)}</p>
                         </div>
                         <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
                             <p style='margin: 0; font-size: 12px; color: #888;'>Recall</p>
-                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>Valor Recall</p>
+                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(recall * 100), 2)}</p>
                         </div>
                     </div>
                 </div>
