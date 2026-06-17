@@ -1,13 +1,17 @@
 import streamlit as st
 import plotly.graph_objects as go
+from datetime import datetime
 
 from services.campeonato_service import info_campeonato
 from services.metricas_service import info_metricas
 from services.predicao_service import info_pred
+from services.piloto_services import estatisticas_piloto
 
 info_camp = info_campeonato()
 metricas = info_metricas()
 predicao = info_pred()
+
+ano_atual = datetime.now().year
 
 def info_exibe():
     if st.session_state.dados == "pilotos":
@@ -253,21 +257,24 @@ def camp():
     with container:
         col5, col6 = st.columns(2)
         with col5:
+            quali = ""
             if predicao.valores_pred[0]["quali"] == "False":
                 f1_score = metricas.sem_quali["f1-score"]
                 recall = metricas.sem_quali["recall"]
                 presicao = metricas.sem_quali["precision"]
                 acuracia = metricas.sem_quali["accuracy"]
+                quali = "Pré-qualifying"
             else:
                 f1_score = metricas.com_quali["f1-score"]
                 recall = metricas.com_quali["recall"]
                 presicao = metricas.com_quali["precision"]
                 acuracia = metricas.com_quali["accuracy"]
+                quali = "Pós-qualifying"
 
             st.html(
                 f"""
                 <div style='padding: 4px 0 12px; gap: 30px'>
-                    <div style='display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 40px'>
+                    <div style='display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px'>
                         <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
                             <p style='margin: 0; font-size: 16px; color: #888;'>Acurácia</p>
                             <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(acuracia * 100), 2)}</p>
@@ -288,5 +295,79 @@ def camp():
                 </div>
                 """
             )
+
+            st.html(
+                f"""
+                <div style='display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 25px'>
+                    <div style='background: #1e1e1e; border-radius: 8px; padding: 6px 14px;'>
+                        <p style='margin: 2px 0 0; font-size: 16px; font-weight: 700; line-height: 1.1; color:#990012;'>XGBoost</p>
+                    </div>
+                    <div style='background: #1e1e1e; border-radius: 8px; padding: 6px 10px;'>
+                        <p style='margin: 2px 0 0; font-size: 16px; font-weight: 700; line-height: 1.1; color:#990012;'>{quali}</p>
+                    </div>
+                    <div style='background: #1e1e1e; border-radius: 8px; padding: 6px 10px;'>
+                        <p style='margin: 2px 0 0; font-size: 16px; font-weight: 700; line-height: 1.1; color:#990012;'>Treino: 2018-{ano_atual}</p>
+                    </div>
+                </div>
+                """
+            )
         with col6:
-            st.write("kzdjhfvj")
+            NOMES_PILOTOS = {
+                "antonelli": "Andrea Kimi Antonelli",
+                "norris": "Lando Norris",
+                "hamilton": "Lewis Hamilton",
+                "russell": "George Russell",
+                "leclerc": "Charles Leclerc",
+                "piastri": "Oscar Piastri",
+                "max_verstappen": "Max Verstappen",
+                "hadjar": "Isack Hadjar",
+                "gasly": "Pierre Gasly",
+                "lawson": "Liam Lawson",
+                "colapinto": "Franco Colapinto",
+                "arvid_lindblad": "Arvid Lindblad",
+                "bottas": "Valtteri Bottas",
+                "perez": "Sergio Pérez",
+                "bortoleto": "Gabriel Bortoleto",
+                "hulkenberg": "Nico Hülkenberg",
+                "sainz": "Carlos Sainz",
+                "alonso": "Fernando Alonso",
+                "stroll": "Lance Stroll",
+                "albon": "Alexander Albon",
+                "ocon": "Esteban Ocon",
+                "bearman": "Oliver Bearman",
+            }
+
+            predicoes = []
+            for i in predicao.valores_pred:
+                predicoes.append({
+                    "id_piloto_atual": i["id_piloto_atual"],
+                    "prob_podio": i["prob_podio"]
+                })
+
+            top = sorted(predicoes, key=lambda p: p["prob_podio"], reverse=True)[:10]
+            top = top[::-1]
+
+            nomes = [NOMES_PILOTOS.get(p["id_piloto_atual"], p["id_piloto_atual"].title()) for p in top]
+            probs = [p["prob_podio"] * 100 for p in top]
+
+            fig = go.Figure(go.Bar(
+                x=probs,
+                y=nomes,
+                orientation="h",
+                marker_color="#990012",
+                text=[f"{p:.0f}%" for p in probs],
+                textposition="outside",
+                textfont=dict(color="#f2f2f2"),
+            ))
+
+            fig.update_layout(
+                title=dict(text="Probabilidade de Pódio", font=dict(color="#f2f2f2", size=14), x=0),
+                height=380,
+                margin=dict(l=0, r=30, t=40, b=10),
+                paper_bgcolor="rgba(0,0,0,0)",
+                plot_bgcolor="rgba(0,0,0,0)",
+                xaxis=dict(showgrid=False, range=[0, 100], showticklabels=False),
+                yaxis=dict(showgrid=False),
+            )
+
+            st.plotly_chart(fig, use_container_width=True)
