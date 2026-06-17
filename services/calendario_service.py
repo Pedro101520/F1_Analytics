@@ -1,47 +1,30 @@
-import requests
 import streamlit as st
-
-from datetime import datetime
 from models.calendario_model import Calendario
+from google.cloud import storage
+from google.oauth2 import service_account
+from dotenv import load_dotenv
+import json
+import os
+
+load_dotenv()
+
+def get_storage_client():
+    if os.getenv("GOOGLE_APPLICATION_CREDENTIALS"):
+        return storage.Client()
+    
+    credentials = service_account.Credentials.from_service_account_info(st.secrets["gcp_service_account"])
+    return storage.Client(
+        credentials=credentials,
+        project=credentials.project_id
+    )
 
 @st.cache_resource(ttl=3600)
 def rodadas():
-    ano_atual = datetime.now().year
-    calendario = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}.json").json()
-    acesso = calendario["MRData"]["RaceTable"]["Races"]
+    client = get_storage_client()
+    bucket = client.bucket("f1-dashboard-pilotos")
+    blob = bucket.blob("f1_calendario.json")
 
-    total_rodadas = acesso[-1]["round"]
+    conteudo = blob.download_as_text()
+    dados = json.loads(conteudo)
     
-    data_atual = datetime.today()
-
-    rodada_atual = None
-
-    consulta = requests.get(f"https://api.jolpi.ca/ergast/f1/{ano_atual}/results/?limit=500").json()
-    races = consulta["MRData"]["RaceTable"]["Races"]
-    rodada = int(races[-1]["round"]) + 1
-    rodada_atual = acesso[rodada]
-
-    prox_corrida_calendario = []
-    prox_grandes_premios = []
-    prox_cidade = []
-    lat = []
-    long = []
-    for i in acesso:
-        data = datetime.strptime(i["date"], "%Y-%m-%d")
-
-        if data.date() >= data_atual.date(): 
-            prox_corrida_calendario.append(i["date"])
-            prox_cidade.append(i["Circuit"]["Location"]["locality"])
-            prox_grandes_premios.append(i["raceName"])
-            lat.append(i["Circuit"]["Location"]["lat"])
-            long.append(i["Circuit"]["Location"]["long"])
-    
-    infos_corridas = {
-        "datas": prox_corrida_calendario,
-        "premio": prox_grandes_premios,
-        "cidade": prox_cidade,
-        "lat": lat,
-        "long": long
-    }
-
-    return Calendario(total_rodadas, rodada_atual, infos_corridas)
+    return Calendario(dados)

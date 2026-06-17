@@ -277,19 +277,19 @@ def camp():
                     <div style='display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px'>
                         <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
                             <p style='margin: 0; font-size: 16px; color: #888;'>Acurácia</p>
-                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(acuracia * 100), 2)}</p>
+                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(acuracia * 100), 2)}%</p>
                         </div>
                         <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
                             <p style='margin: 0; font-size: 12px; color: #888;'>F1-Score</p>
-                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(f1_score * 100), 2)}</p>
+                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(f1_score * 100), 2)}%</p>
                         </div>
                         <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
                             <p style='margin: 0; font-size: 12px; color: #888;'>Precisão</p>
-                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(presicao * 100), 2)}</p>
+                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(presicao * 100), 2)}%</p>
                         </div>
                         <div style='background: #1e1e1e; border-radius: 8px; padding: 10px 14px;'>
                             <p style='margin: 0; font-size: 12px; color: #888;'>Recall</p>
-                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(recall * 100), 2)}</p>
+                            <p style='margin: 4px 0 0; font-size: 18px; font-weight: 700;'>{round(float(recall * 100), 2)}%</p>
                         </div>
                     </div>
                 </div>
