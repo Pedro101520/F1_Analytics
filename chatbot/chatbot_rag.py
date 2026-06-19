@@ -3,8 +3,10 @@ from langchain_openai import OpenAIEmbeddings
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_openai import ChatOpenAI
 from dotenv import load_dotenv
+import streamlit as st
 
 load_dotenv()
+API_KEY = st.secrets["OPENAI_API_KEY"]
 
 CAMINHO_DB = "chatbot/db"
 
@@ -35,7 +37,7 @@ Resposta:
 """
 
 def perguntar(mensagem_usuario):
-    funcao_embedding = OpenAIEmbeddings()
+    funcao_embedding = OpenAIEmbeddings(api_key=API_KEY)
     db = Chroma(persist_directory=CAMINHO_DB, embedding_function=funcao_embedding)
 
     resultados = db.similarity_search_with_relevance_scores(mensagem_usuario, k=5)
@@ -59,7 +61,8 @@ def perguntar(mensagem_usuario):
 
     llm = ChatOpenAI(
         model="gpt-4o-mini",
-        temperature=0.2
+        temperature=0.2,
+        api_key=API_KEY
     )
 
     resposta = llm.invoke(mensagem)
