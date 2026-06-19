@@ -455,20 +455,23 @@ def info_equipes():
 
         info_duelo = []
         for i in infos_estatisticas.piloto_id:
-            duelo = estatisticas_piloto(i)
-            qtde_duelo = duelo.pontuacao_individual
-            if len(qtde_duelo) > num_titular:
-                info_duelo.append({
-                    "nome": f"{duelo.nome} {duelo.sobrenome}",
-                    "pontos": duelo.pontos,
-                    "numero": duelo.numero,
-                    "podios": duelo.podios,
-                    "melhor_resultado": duelo.melhor_resultado,
-                    "media_grid": duelo.media_largada,
-                    "abandonos": duelo.abandonos,
-                    "pole_position": duelo.pole_positions,
-                    "pontos_medios": float(duelo.pontos) / total_rodadas
-                })
+            try:
+                duelo = estatisticas_piloto(i)
+                qtde_duelo = duelo.pontuacao_individual
+                if len(qtde_duelo) > num_titular:
+                    info_duelo.append({
+                        "nome": f"{duelo.nome} {duelo.sobrenome}",
+                        "pontos": duelo.pontos,
+                        "numero": duelo.numero,
+                        "podios": duelo.podios,
+                        "melhor_resultado": duelo.melhor_resultado,
+                        "media_grid": duelo.media_largada,
+                        "abandonos": duelo.abandonos,
+                        "pole_position": duelo.pole_positions,
+                        "pontos_medios": float(duelo.pontos) / total_rodadas
+                    })
+            except:
+                continue
 
         st.markdown(
         f"""
