@@ -6,6 +6,7 @@ from paginas.inicio import pagina_inicial
 from paginas.pilotos import info_pilotos
 from paginas.equipes import info_equipes
 from paginas.campeonato import camp
+from paginas.chatbot_pagina import renderiza_chat
 
 # valor = requests.get("https://api.jolpi.ca/ergast/f1/2024/driverstandings/").json()
 # print(valor)
@@ -20,7 +21,7 @@ wide_mode()
 if "page" not in st.session_state:
     st.session_state.page = "inicio"
 
-col1, col2, col3, col4, col5 = st.columns([5,1,1,1,1])
+col1, col2, col3, col4, col5, col6 = st.columns([5,1,1,1,1, 1])
 
 with col1:
     img_col, text_col = st.columns([1, 10])
@@ -44,6 +45,10 @@ with col5:
     if st.button("Campeonato", use_container_width=True):
         st.session_state.page = "camp"
         st.rerun()
+with col6:
+    if st.button("ChatBot F1", use_container_width=True):
+        st.session_state.page = "chat"
+        st.rerun()
 
 
 
@@ -55,3 +60,5 @@ elif st.session_state.page == "equipes":
     info_equipes()
 elif st.session_state.page == "camp":
     camp()
+elif st.session_state.page == "chat":
+    renderiza_chat()
