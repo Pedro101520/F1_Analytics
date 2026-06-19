@@ -13,9 +13,8 @@ import os
 from chatbot.chatbot_rag import perguntar
 
 load_dotenv()
-API_KEY = os.getenv("OPENAI_API_KEY")
 
-llm_model = ChatOpenAI(model="gpt-4.1-nano", api_key=API_KEY)
+llm_model = ChatOpenAI(model="gpt-4.1-nano")
 
 SYSTEM_MESSAGE_PESQUISA = SystemMessage(content=f"""
 Você é um assistente virtual especializado em Fórmula 1 com acesso à internet.
@@ -552,7 +551,7 @@ def router(state: State):
     return {"category": resposta.content}
     
 def pesquisa(state: State):
-    client = OpenAI(api_key=API_KEY)
+    client = OpenAI()
 
     historico = state.get("historico", [])
 
