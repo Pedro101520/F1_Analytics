@@ -664,4 +664,7 @@ def executa(pergunta, historico):
         "query": pergunta,
         "historico": historico
     })
-    return {"answer": resultado_tecnico["answer"]}
+    return {
+        "answer": resultado_tecnico["answer"],
+        "categoria": resultado_tecnico["category"]
+    }

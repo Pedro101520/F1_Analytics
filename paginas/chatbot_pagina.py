@@ -38,7 +38,9 @@ def renderiza_chat():
             with st.spinner("Pensando..."):
                 try:
                     resultado = executa(prompt, st.session_state.historico)
-                    resposta = resultado.get("answer", "Não consegui gerar uma resposta. Tente novamente.")
+                    categoria = resultado.get("categoria", "Não encontrei a categoria")
+                    categoria = f"A categoria do chatbot selecionada para essa mensagem foi: {categoria}\n\n"
+                    resposta = f"{categoria} {resultado.get('answer', 'Não consegui gerar uma resposta. Tente novamente.')}"
                 except Exception as e:
                     resposta = f"Ocorreu um erro ao processar sua pergunta: {e}"
 
