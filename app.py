@@ -21,6 +21,11 @@ wide_mode()
 if "page" not in st.session_state:
     st.session_state.page = "inicio"
 
+st.set_page_config(
+    page_title="F1 Analytics",
+    page_icon="assets/F1+Logo.png"
+)
+
 col1, col2, col3, col4, col5, col6 = st.columns([5,1,1,1,1, 1])
 
 with col1:
