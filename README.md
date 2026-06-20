@@ -40,7 +40,7 @@ O projeto tamb√©m conta com um modelo preditivo feito com XGBoost (usando a fun√
 ---
 
 ## Diagrama da arquitetura
-<img width="493" height="737" alt="image" src="https://github.com/user-attachments/assets/fae9d336-2218-4d20-86ff-e10b121fd847" />
+<img width="789" height="752" alt="image" src="https://github.com/user-attachments/assets/5e3562f4-aeb8-4209-a2af-a7295ff84d23" />
 
 
 ## Como funciona
